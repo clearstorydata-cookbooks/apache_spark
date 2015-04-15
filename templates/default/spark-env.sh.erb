@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+# Copyright © 2015 ClearStory Data, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# This file contains environment variables required to run Spark. Copy it as
+# spark-env.sh and edit that to configure Spark for your site.
+#
+# The following variables can be set in this file:
+# - SPARK_LOCAL_IP, to set the IP address Spark binds to on this node
+# - MESOS_NATIVE_LIBRARY, to point to your libmesos.so if you use Mesos
+#
+# If using the standalone deploy mode, you can also set variables for it here:
+# - SPARK_MASTER_IP, to bind the master to a different IP address or hostname
+# - SPARK_MASTER_PORT / SPARK_MASTER_WEBUI_PORT, to use non-default ports
+# - SPARK_WORKER_CORES, to set the number of cores to use on this machine
+# - SPARK_WORKER_MEMORY, to set how much memory to use (e.g. 1000m, 2g)
+# - SPARK_WORKER_PORT / SPARK_WORKER_WEBUI_PORT
+# - SPARK_WORKER_INSTANCES, to set the number of worker processes per node
+#
+# Finally, Spark also relies on the following variables, but these can be set
+# on just the *master* (i.e. in your driver program), and will automatically
+# be propagated to workers:
+# - SPARK_CLASSPATH, to add elements to Spark's classpath
+# - SPARK_LIBRARY_PATH, to add extra search paths for native libraries.
+
+export SPARK_MASTER_IP=<%= @master_bind_ip %>
+export SPARK_MASTER_PORT=<%= @master_port %>
+export SPARK_MASTER_WEBUI_PORT=<%= @master_webui_port %>
+
+export SPARK_WORKER_MEMORY="<%= @worker_memory_mb %>m"
+export SPARK_WORKER_WEBUI_PORT=<%= @worker_webui_port %>
+<% if @worker_cores  %>
+export SPARK_WORKER_CORES=<%= @worker_cores %>
+<% end %>
+
+# If the user did not override the MASTER variable, we assume they are connecting to the Spark
+# master we know about.
+if [[ -z "${MASTER:-}" ]]; then
+  export MASTER=spark://<%= @master_host %>:<%= @master_port %>
+fi
+
+<% if @default_local_ip %>
+export SPARK_LOCAL_IP=<%= @default_local_ip %>
+<% end %>
+
+# SPARK_HOME is set in Spark's run script
+# MASTER is specified in spark-env.sh
+export MESOS_NATIVE_LIBRARY=/usr/lib/libmesos.so
+
+<% if @java_debug_enabled %>
+
+if [ -z "${DEBUG_PORT:-}" ]; then
+  for arg in "$@"; do
+    case "${arg}" in
+      spark.deploy.master.Master) DEBUG_PORT=<%= @master_debug_port %>; break ;;
+      spark.deploy.worker.Worker) DEBUG_PORT=<%= @worker_debug_port %>; break ;;
+      spark.executor.StandaloneExecutorBackend)
+        DEBUG_PORT=<%= @standalone_executor_debug_port %>; break ;;
+    esac
+  done
+  if [ -z "${DEBUG_PORT:-}" ]; then
+    DEBUG_PORT=<%= @default_debug_port %>
+  fi
+fi
+
+CLASS_COMMENT=""
+if [ -n "${1:-}" ]; then
+  CLASS_COMMENT=" (class ${1:-})"
+fi
+
+FREE_DEBUG_PORT=$( /usr/local/bin/find-free-port.rb $DEBUG_PORT 100 "Java debugger$CLASS_COMMENT" )
+
+if [ -z "$FREE_DEBUG_PORT" ]; then
+  echo "Could not find free port for Java debugger starting with $DEBUG_PORT" >&2
+  exit 1
+fi
+
+unset DEBUG_PORT FREE_DEBUG_PORT
+
+<% end %>
+
+export HADOOP_CONF_DIR="<%= node['hadoop']['conf_dir'] %>"

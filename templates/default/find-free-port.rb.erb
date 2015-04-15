@@ -1,0 +1,61 @@
+#!<%= @ruby_interpreter %>
+
+# Determine the next free port starting with the given port.
+# Used for assigning Java debug ports.
+
+require 'socket'
+require 'timeout'
+
+# Borrowed from http://stackoverflow.com/questions/517219/ruby-see-if-a-port-is-open
+def is_port_open?(ip, port)
+  begin
+    Timeout::timeout(1) do
+      begin
+        s = TCPSocket.new(ip, port)
+        s.close
+        return true
+      rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+        return false
+      end
+    end
+  rescue Timeout::Error
+  end
+
+  return false
+end
+
+def find_free_port(start_port, num_ports)
+  end_port = start_port + num_ports - 1
+  (start_port..end_port).each do |port|
+    return port unless is_port_open?("0.0.0.0", port)
+  end
+  raise "Could not find free port between #{start_port} and #{end_port} inclusively"
+end
+
+default_start_port = 1024
+default_num_ports = 100
+
+if ARGV.include?("-h") || ARGV.include?("--help")
+  $stderr.puts "Find a free TCP port in the given range."
+  $stderr.puts "Arguments: [start_port] [num_ports_to_search] [description]"
+  $stderr.puts "    start_port - the starting port to search from (#{default_start_port} by default)"
+  $stderr.puts "    num_ports_to_search - the number of ports to search (#{default_num_ports} by default)"
+  $stderr.puts "    description - additional information to use in log messages"
+
+  exit(1)
+end
+
+start_port = Integer(ARGV[0] || default_start_port)
+num_ports_to_search = Integer(ARGV[1] || default_num_ports)
+free_port = find_free_port(start_port, num_ports_to_search)
+
+description = (ARGV[2..-1] || []).join(" ")
+description = "for #{description}" unless description.empty?
+
+if free_port == start_port
+  $stderr.puts "Using preferred port #{start_port} #{description}"
+else
+  $stderr.puts "Preferred port #{start_port} is taken, using #{free_port} #{description}"
+end
+
+puts free_port

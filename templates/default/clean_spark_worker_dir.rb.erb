@@ -1,0 +1,102 @@
+#!<%= @ruby_interpreter %>
+
+# Copyright © 2015 ClearStory Data, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+require 'date'
+require 'fileutils'
+require 'optparse'
+require 'logger'
+
+log = Logger.new(STDOUT)
+
+options = {}
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{File.basename(__FILE__)} <options>\n" +
+                "Options:"
+
+  opts.set_summary_width(22)
+  indent = " " * (opts.summary_width + opts.summary_indent.length + 1)
+
+  opts.on("-w", "--worker_dir DIR", String,
+    "The Spark worker directory. Contains individual job directories of the form \n#{indent}" +
+    "app-YYYYmmddHHMMSS-xxxx. Required.") do |v|
+    options[:worker_dir] = v
+  end
+
+  opts.on("-d", "--days_retained N", Integer,
+    "Directories older than this number of days will be deleted, unless they are \n#{indent}" +
+    "retained as described below. Required.") do |v|
+    options[:days_retained] = v
+  end
+
+  opts.on("-n", "--num_retained N", Integer,
+    "This number of latest directories will be retained even if they are older than \n#{indent}" +
+    "the retention period. This should be greater than or equal to the maximum number \n#{indent}" +
+    "of concurrent long-running Spark jobs (applications). Required.") do |v|
+    options[:num_retained] = v
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end
+
+if ARGV.empty?
+  $stderr.puts parser
+  exit 1
+end
+
+parser.parse!
+
+raise "Worker directory to clean up is not specified" unless options[:worker_dir]
+worker_dir = options[:worker_dir]
+unless File.directory?(worker_dir)
+  raise "Directory #{worker_dir} does not exist"
+end
+
+raise "Number of days to retain job directories is not specified" unless options[:days_retained]
+days_retained = options[:days_retained]
+
+raise "Number of job directories to retain is not specified" unless options[:num_retained]
+num_retained = options[:num_retained]
+
+JOB_DIR_RE = /^app-(\d{14})-\d{4}$/
+
+# Remove timezone for calculating difference with parsed date/time
+now = DateTime.now
+now_no_tz = DateTime.new(now.year, now.month, now.day, now.hour, now.min, now.sec)
+
+dir_list = Dir.glob("#{worker_dir}/*")
+dir_list = dir_list.select { |d| File.directory?(d) && File.basename(d) =~ JOB_DIR_RE }
+dir_list.sort!
+
+dirs_removed = 0
+
+# Skip most recent num_retained directories
+dir_list[0 .. -(1 + num_retained)].each do |d|
+  File.basename(d) =~ JOB_DIR_RE
+  t = DateTime.parse($1)
+  delta = now_no_tz - t
+  days = delta.to_i
+  if days >= days_retained
+    log.info("Removing directory #{d} " +
+             "(>= #{days} days old, retention period is #{days_retained} days)")
+    FileUtils.rm_rf(d)
+    dirs_removed += 1
+  end
+end
+
+log.info("#{dirs_removed} job dirs removed in #{worker_dir} out of #{dir_list.length}")
