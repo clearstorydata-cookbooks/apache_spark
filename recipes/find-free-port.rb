@@ -17,5 +17,5 @@ template "/usr/local/bin/find-free-port.rb" do
   mode      0755
   owner     "root"
   group     "root"
-  variables ruby_interpreter: node["chef-ruby-interpreter"]
+  variables ruby_interpreter: RbConfig.ruby
 end

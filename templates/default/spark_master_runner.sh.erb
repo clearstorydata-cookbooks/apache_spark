@@ -17,7 +17,7 @@
 export SPARK_DAEMON_JAVA_OPTS="-Dspark.root.logger=<%= @daemon_root_logger %> \
                                -Dspark.log.file=spark-standalone-master.log"
 
-<%= @install_dir %>/bin/spark-class \
+exec <%= @install_dir %>/bin/spark-class \
     org.apache.spark.deploy.master.Master \
     --ip <%= @master_bind_ip %> \
     --webui-port <%= @master_webui_port %> \

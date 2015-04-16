@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Managed by chef, changes will be overwritten.
+# Managed by Chef, changes will be overwritten.
 check process <%= @service_name %>
   matching "java.* org\.apache\.spark\.deploy\.worker\.Worker "
   every 1 cycles
-  start program "/bin/bash -c 'exec <%= @install_dir %>/start_apache_spark_worker.sh'" \
+  start program "/bin/bash -c 'exec <%= @worker_runner_script %>'" \
     as uid root as gid root
   stop program "/usr/bin/pkill -u spark -f 'java.* org\.apache\.spark\.deploy\.worker\.Worker'"
     as uid spark as gid spark

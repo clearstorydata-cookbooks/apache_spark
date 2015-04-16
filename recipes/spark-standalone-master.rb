@@ -19,7 +19,7 @@ include_recipe 'monit_wrapper'
 package('monit').run_action(:install)
 service('monit').run_action(:start)
 
-master_runner_script = ::File.join(node['apache_spark']['install_dir'], 'master_runner.sh')
+master_runner_script = ::File.join(node['apache_spark']['install_dir'], 'bin', 'master_runner.sh')
 
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
@@ -40,7 +40,8 @@ monit_wrapper_monitor service_name do
   template_source "monit/#{service_name}.conf.erb"
   template_cookbook 'apache_spark'
   variables node['apache_spark']['standalone'].merge(
-              install_dir: node['apache_spark']['install_dir']
+              install_dir: node['apache_spark']['install_dir'],
+              master_runner_script: master_runner_script
             )
 end
 

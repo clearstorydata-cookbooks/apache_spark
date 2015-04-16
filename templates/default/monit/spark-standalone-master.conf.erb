@@ -16,7 +16,7 @@
 check process <%= @service_name %>
   matching "^java.* (org\.apache\.)?spark\.deploy\.master\.Master "
   every 1 cycles
-  start program "/bin/bash -c 'exec <%= @install_dir %>/master-runner'" \
+  start program "/bin/bash -c 'exec <%= @master_runner_script %>'" \
     as uid spark as gid spark
   stop program "/usr/bin/pkill -u spark -f '^java.* (org\.apache\.)?spark\.deploy\.master\.Master'"
     as uid spark as gid spark

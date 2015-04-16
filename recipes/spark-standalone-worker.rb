@@ -47,7 +47,7 @@ template '/usr/local/bin/clean_spark_worker_dir.rb' do
   mode      0755
   owner     'root'
   group     'root'
-  variables ruby_interpreter: node['chef-ruby-interpreter']
+  variables ruby_interpreter: RbConfig.ruby
 end
 
 worker_dir_cleanup_log = node['apache_spark']['standalone']["worker_dir_cleanup_log"]
@@ -70,29 +70,6 @@ logrotate_app "worker-dir-cleanup-log" do
   create "0644 root root"
 end
 
-# Remove Upstart service because we are now using Monit for Spark. This piece of code can
-# be removed when Spark migration from Upstart to Monit is finished.
-service 'spark-standalone-worker' do
-  provider Chef::Provider::Service::Upstart
-  action [ :stop, :disable ]
-  only_if { File.exists?('/etc/init/spark-standalone-worker.conf') }
-end
-
-file '/etc/init/spark-standalone-worker.conf' do
-  action :delete
-end
-
-# Create file for monit to execute which sets limits
-template "#{node['apache_spark']['install_dir']}/start_apache_spark_worker.sh" do
-  source    'start_apache_spark_worker.sh.erb'
-  mode      0755
-  owner     spark_user
-  group     spark_group
-  variables node['apache_spark']['standalone'].merge(
-              install_dir: node['apache_spark']['install_dir']
-            )
-end
-
 # Run Spark standalone worker with Monit
 service_name = 'spark-standalone-worker'
 master_host_port = '%s:%d' % [
@@ -104,7 +81,8 @@ monit_wrapper_monitor service_name do
   template_source "monit/#{service_name}.conf.erb"
   template_cookbook 'apache_spark'
   variables node['apache_spark']['standalone'].merge(
-              install_dir: node['apache_spark']['install_dir']
+              install_dir: node['apache_spark']['install_dir'],
+              worker_runner_script: worker_runner_script
             )
 end
 
