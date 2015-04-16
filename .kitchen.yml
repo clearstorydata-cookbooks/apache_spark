@@ -16,19 +16,27 @@ driver:
   name: vagrant
   customize:
     cpus: 2
-    memory: 4096
+    memory: 2048
 
 provisioner:
   name: chef_solo
 
 platforms:
-- name: ubuntu-12.04
+  - name: ubuntu-12.04
 
 suites:
-- name: testkitchen_apache_spark
-  run_list:
-  - recipe[apache_spark_test::spark]
-  - recipe[minitest-handler]
-  attributes:
-    java:
-      jdk_version: 7
+  - name: testkitchen_apache_spark
+    run_list:
+      - recipe[apache_spark_test::spark]
+      - recipe[minitest-handler]
+    attributes:
+      java:
+        jdk_version: 7
+      hadoop:
+        distribution: cdh
+        core_site:
+          fs.defaultFS: hdfs://localhost:54310
+      sysctl: {}
+      minitest:
+        recipes:
+          - apache_spark_test::spark
