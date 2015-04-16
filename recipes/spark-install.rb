@@ -15,15 +15,12 @@
 include_recipe 'apache_spark::find-free-port'
 include_recipe 'apache_spark::spark-user'
 
-domain = (node["ddns"] || {})["domain"]
-domain_suffix = domain.nil? ? '' : ".#{domain}"
-
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
 
 install_mode = node['apache_spark']['install_mode']
 
-spark_install_dir = node['apache_spark']["install_dir"]
+spark_install_dir = node['apache_spark']['install_dir']
 spark_conf_dir = ::File.join(spark_install_dir, 'conf')
 
 case install_mode
@@ -32,16 +29,32 @@ when 'package'
     version node['apache_spark']['pkg_version']
   end
 when 'tarball'
-  downloaded_tarball_path = ::File.join(Chef::Config[:file_cache_path], 
-    ::File.basename(URI.parse(node['apache_spark']['download_url']).path))
-  remote_file downloaded_tarball_path do 
-    source node['apache_spark']['download_url']
+  install_base_dir = node['apache_spark']['install_base_dir']
+  directory install_base_dir do
+    user spark_user
+    group spark_group
+  end
+  tarball_basename = ::File.basename(URI.parse(node['apache_spark']['download_url']).path)
+  downloaded_tarball_path = ::File.join(Chef::Config[:file_cache_path], tarball_basename)
+  tarball_url = node['apache_spark']['download_url']
+  Chef::Log.warn("#{tarball_url} will be downloaded to #{downloaded_tarball_path}")
+  remote_file downloaded_tarball_path do
+    source tarball_url
     checksum node['apache_spark']['checksum']
   end
 
+  extracted_dir_name = tarball_basename.sub(/[.](tar[.]gz|tgz)$/, '')
+
+  Chef::Log.warn("#{downloaded_tarball_path} will be extracted in #{install_base_dir}")
+  actual_install_dir = ::File.join(install_base_dir, extracted_dir_name)
   tar_extract downloaded_tarball_path do
     action :extract_local
-    target_dir spark_install_dir
+    target_dir install_base_dir
+    creates actual_install_dir
+  end
+
+  link spark_install_dir do
+    to actual_install_dir
   end
 else
   raise "Invalid Apache Spark installation mode: #{install_mode}. 'package' or 'tarball' required."

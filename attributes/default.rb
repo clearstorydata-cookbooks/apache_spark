@@ -25,18 +25,23 @@ default['apache_spark']['pkg_name'] = 'spark'
 default['apache_spark']['pkg_version'] = '1.2.1'
 
 default['apache_spark']['install_dir'] = '/usr/share/spark'
+default['apache_spark']['install_base_dir'] = '/opt/spark'
 default['apache_spark']['user'] = 'spark'
 default['apache_spark']['group'] = 'spark'
 
-default['apache_spark']['standalone']['master_host'] = nil  
+default['apache_spark']['standalone']['master_host'] = nil
 
 # The IP address for Spark master to bind to. This should be set to an IP address or host name
 # accessible by the entire cluster.
 default['apache_spark']['standalone']['master_bind_ip'] = 'localhost'
+
+# This is the host clients will try to connect to.
+default['apache_spark']['standalone']['master_host'] = 'localhost'
+
 default['apache_spark']['standalone']['master_port'] = 7077
 default['apache_spark']['standalone']['master_webui_port'] = 8080
 
-default['apache_spark']['standalone']['worker_bind_ip'] = '0.0.0.0' 
+default['apache_spark']['standalone']['worker_bind_ip'] = '0.0.0.0'
 default['apache_spark']['standalone']['worker_webui_port'] = 8081
 
 default['apache_spark']['standalone']['job_dir_days_retained'] = 7

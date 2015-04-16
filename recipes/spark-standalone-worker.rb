@@ -13,6 +13,7 @@
 # limitations under the License.
 
 include_recipe 'apache_spark::spark-install'
+include_recipe 'monit_wrapper'
 
 # Do these at compile time so we can query process status immediately.
 package('monit').run_action(:install)
@@ -41,11 +42,12 @@ directory node['apache_spark']['standalone']['worker_work_dir'] do
   recursive true
 end
 
-cookbook_file '/usr/local/bin/clean_spark_worker_dir.rb' do
-  source    'clean_spark_worker_dir.rb'
+template '/usr/local/bin/clean_spark_worker_dir.rb' do
+  source    'clean_spark_worker_dir.rb.erb'
   mode      0755
   owner     'root'
   group     'root'
+  variables ruby_interpreter: node['chef-ruby-interpreter']
 end
 
 worker_dir_cleanup_log = node['apache_spark']['standalone']["worker_dir_cleanup_log"]
@@ -99,7 +101,7 @@ master_host_port = '%s:%d' % [
 ]
 monit_wrapper_monitor service_name do
   wait_for_host_port master_host_port
-  template_source 'monit/#{service_name}.conf.erb'
+  template_source "monit/#{service_name}.conf.erb"
   template_cookbook 'apache_spark'
   variables node['apache_spark']['standalone'].merge(
               install_dir: node['apache_spark']['install_dir']

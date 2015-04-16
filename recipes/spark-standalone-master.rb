@@ -13,6 +13,7 @@
 # limitations under the License.
 
 include_recipe 'apache_spark::spark-install'
+include_recipe 'monit_wrapper'
 
 # Do these at compile time so we can query process status at compile time.
 package('monit').run_action(:install)
@@ -36,7 +37,7 @@ end
 # Run Spark standalone master with Monit
 service_name = 'spark-standalone-master'
 monit_wrapper_monitor service_name do
-  template_source 'monit/#{service_name}.conf.erb'
+  template_source "monit/#{service_name}.conf.erb"
   template_cookbook 'apache_spark'
   variables node['apache_spark']['standalone'].merge(
               install_dir: node['apache_spark']['install_dir']
