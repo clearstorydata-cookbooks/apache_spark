@@ -12,7 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-driver_plugin: vagrant
+driver:
+  name: vagrant
+  customize:
+    cpus: 2
+    memory: 4096
 
 provisioner:
   name: chef_solo
@@ -23,4 +27,8 @@ platforms:
 suites:
 - name: testkitchen_apache_spark
   run_list:
-  - recipe[apache_spark_test]
+  - recipe[apache_spark_test::spark]
+  - recipe[minitest-handler]
+  attributes:
+    java:
+      jdk_version: 7

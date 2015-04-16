@@ -91,4 +91,6 @@ unset DEBUG_PORT FREE_DEBUG_PORT
 
 <% end %>
 
+<% if node['apache_spark']['hadoop_conf_dir'] %>
 export HADOOP_CONF_DIR="<%= node['hadoop']['conf_dir'] %>"
+<% end %>

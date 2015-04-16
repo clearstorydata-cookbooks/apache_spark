@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name             'monit_wrapper'
+name             'apache_spark'
 maintainer       'ClearStory Data, Inc.'
 maintainer_email 'mbautin@clearstorydata.com'
 license          'Apache License 2.0'
@@ -23,6 +23,8 @@ version          '1.0.0'
   supports os
 end
 
-depends 'apt'
-depends 'monit'
-depends 'monit_wrapper', '~> 2.4'
+depends 'apt', '~> 2.0'
+depends 'java', '~> 1.0'
+depends 'logrotate', '~> 1.0'
+depends 'monit_wrapper', '~> 3.0'
+depends 'tar'

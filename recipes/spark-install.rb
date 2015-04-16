@@ -21,13 +21,34 @@ domain_suffix = domain.nil? ? '' : ".#{domain}"
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
 
-package node['apache_spark']["pkg_name"] do
-  pkg_path node['apache_spark']["pkg_path"]
-  version node['apache_spark']["version"]
+install_mode = node['apache_spark']['install_mode']
+
+spark_install_dir = node['apache_spark']["install_dir"]
+spark_conf_dir = ::File.join(spark_install_dir, 'conf')
+
+case install_mode
+when 'package'
+  package node['apache_spark']['pkg_name'] do
+    version node['apache_spark']['pkg_version']
+  end
+when 'tarball'
+  downloaded_tarball_path = ::File.join(Chef::Config[:file_cache_path], 
+    ::File.basename(URI.parse(node['apache_spark']['download_url']).path))
+  remote_file downloaded_tarball_path do 
+    source node['apache_spark']['download_url']
+    checksum node['apache_spark']['checksum']
+  end
+
+  tar_extract downloaded_tarball_path do
+    action :extract_local
+    target_dir spark_install_dir
+  end
+else
+  raise "Invalid Apache Spark installation mode: #{install_mode}. 'package' or 'tarball' required."
 end
 
-set_default_using_dns(['apache_spark', 'standalone', 'master_host'], 'spark-master')
-set_default_using_dns(['apache_spark', 'standalone', 'master_bind_ip'], 'spark-master')
+# set_default_using_dns(['apache_spark', 'standalone', 'master_host'], 'spark-master')
+# set_default_using_dns(['apache_spark', 'standalone', 'master_bind_ip'], 'spark-master')
 
 unless Chef::Config[:solo]
   # Bind the worker to the real network interface. We are assuming that /etc/hosts or DNS
@@ -47,9 +68,6 @@ end
     end
   end
 end
-
-spark_install_dir = node['apache_spark']["install_dir"]
-spark_conf_dir = ::File.join(spark_install_dir, 'conf')
 
 if (node['csd-ec2-ephemeral'] || {})['mounts'] && node['csd-ec2-ephemeral']['mounts'].any?
   local_dirs = node['csd-ec2-ephemeral']['mounts'].map do |mount|
@@ -84,8 +102,8 @@ end
   node['apache_spark']["standalone"]["worker_work_dir"]] + local_dirs).each do |dir|
   directory dir do
     mode 0755
-    owner "spark"
-    group "spark"
+    owner spark_user
+    group spark_group
     action :create
     recursive true
   end
@@ -94,8 +112,8 @@ end
 template "#{spark_conf_dir}/spark-env.sh" do
   source    "spark-env.sh.erb"
   mode      0644
-  owner     "spark"
-  group     "spark"
+  owner     spark_user
+  group     spark_group
   variables node['apache_spark']["standalone"]
 end
 
@@ -112,13 +130,15 @@ template "#{spark_conf_dir}/log4j.properties" do
   variables node['apache_spark']['standalone']
 end
 
-common_extra_classpath_items = [
-  node['hadoop']['hive']['mysql']['connector_jar'],
-  node['hadoop']['hive']['conf_dir']
-]
-if common_extra_classpath_items.any?(&:nil?)
-  raise "Some extra classpath items for Spark are not set: #{common_extra_classpath_items}"
-end
+common_extra_classpath_items = []
+# common_extra_classpath_items = [
+#   node['hadoop']['hive']['mysql']['connector_jar'],
+#   node['hadoop']['hive']['conf_dir']
+# ]
+
+# if common_extra_classpath_items.any?(&:nil?)
+#   raise "Some extra classpath items for Spark are not set: #{common_extra_classpath_items}"
+# end
 node.override['apache_spark']['common_extra_classpath_items'] = common_extra_classpath_items
 
 local_dirs ||= node['apache_spark']['standalone']['local_dirs']

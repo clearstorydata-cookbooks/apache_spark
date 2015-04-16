@@ -38,7 +38,7 @@ service_name = 'spark-standalone-master'
 monit_wrapper_monitor service_name do
   template_source 'monit/#{service_name}.conf.erb'
   template_cookbook 'apache_spark'
-  variables node['apache_spark']['standalone'],merge(
+  variables node['apache_spark']['standalone'].merge(
               install_dir: node['apache_spark']['install_dir']
             )
 end
@@ -51,9 +51,9 @@ monit_wrapper_service service_name do
   subscribes restart_action, "template[#{master_runner_script}]", :delayed
 end
 
-ddns_alias 'spark-master' do
-  dns_master (node['ddns'] || {})['master']
-  domain (node['ddns'] || {})['domain']
-  debug true
-  only_if_configured true
-end
+# ddns_alias 'spark-master' do
+#   dns_master (node['ddns'] || {})['master']
+#   domain (node['ddns'] || {})['domain']
+#   debug true
+#   only_if_configured true
+# end
