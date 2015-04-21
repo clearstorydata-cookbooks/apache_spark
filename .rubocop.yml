@@ -1,0 +1,13 @@
+AllCops:
+  Include:
+    - Berksfile
+    - Gemfile
+    - Rakefile
+    - Thorfile
+    - Guardfile
+  Exclude:
+    - vendor/**/*
+    - cookbooks/**/*
+
+LineLength:
+  Enabled: false
