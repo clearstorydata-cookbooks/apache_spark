@@ -88,8 +88,8 @@ if (node['csd-ec2-ephemeral'] || {})['mounts'] && node['csd-ec2-ephemeral']['mou
   end
   if local_dirs.empty?
     local_dirs = (0..3).map { |i| "/mnt/ephemeral#{i}" }
-                       .select { |d| ::File.directory?(d) }
-                       .map { |d| ::File.join(d, 'spark', 'local') }
+                 .select { |d| ::File.directory?(d) }
+                 .map { |d| ::File.join(d, 'spark', 'local') }
     Chef::Log.warn(
       'EC2 ephemeral mount list is empty. Setting Spark local directories based on existing ' \
       "/mnt/ephemeral{0,1,2,3} directories: #{local_dirs}. This might not be correct. " \
