@@ -45,7 +45,7 @@ describe_recipe 'apache_spark::spark-install' do
 
   it 'allows to run a Spark program (SparkPi)' do
     spark_install_dir = node['apache_spark']['install_dir']
-    spark_examples_jars = Dir["/usr/share/spark/lib/spark-examples-*.jar"]
+    spark_examples_jars = Dir['/usr/share/spark/lib/spark-examples-*.jar']
     assert_equal(1, spark_examples_jars.length,
       "Expected exactly one Spark examples jar but found #{spark_examples_jars}.")
     spark_examples_jar = spark_examples_jars.first
@@ -53,9 +53,9 @@ describe_recipe 'apache_spark::spark-install' do
     start_spark
     spark_pi_result = shell_out!(
       "sudo -u spark #{spark_install_dir}/bin/spark-submit " \
-      "--class org.apache.spark.examples.SparkPi " \
-      "--deploy-mode client " \
-      "--master spark://localhost:7077 " \
+      '--class org.apache.spark.examples.SparkPi ' \
+      '--deploy-mode client ' \
+      '--master spark://localhost:7077 ' \
       "#{spark_examples_jar} 100")
     expected_msg = 'Pi is roughly 3.14'
     assert(

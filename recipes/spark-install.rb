@@ -66,8 +66,8 @@ end
 unless Chef::Config[:solo]
   # Bind the worker to the real network interface. We are assuming that /etc/hosts or DNS
   # is set up so that this name resolves correctly.
-  node.override['apache_spark']["standalone"]["worker_bind_ip"] =
-    "#{node["hostname"]}#{domain_suffix}"
+  node.override['apache_spark']['standalone']['worker_bind_ip'] =
+    "#{node['hostname']}#{domain_suffix}"
 end
 
 # Allow specifying an interface name such as 'eth0' to make this work in single-node test
@@ -91,7 +91,7 @@ if (node['csd-ec2-ephemeral'] || {})['mounts'] && node['csd-ec2-ephemeral']['mou
                        .select {|d| ::File.directory?(d) }
                        .map {|d| ::File.join(d, 'spark', 'local') }
     Chef::Log.warn(
-      "EC2 ephemeral mount list is empty. Setting Spark local directories based on existing " \
+      'EC2 ephemeral mount list is empty. Setting Spark local directories based on existing ' \
       "/mnt/ephemeral{0,1,2,3} directories: #{local_dirs}. This might not be correct. " \
       "It is recommended that node['apache_spark']['local_dir'] is explicitly set instead."
     )
@@ -99,8 +99,8 @@ if (node['csd-ec2-ephemeral'] || {})['mounts'] && node['csd-ec2-ephemeral']['mou
     Chef::Log.info('Setting Spark local directories automatically ' \
                    "based on EC2 ephemeral devices: #{local_dirs}.")
   end
-elsif node['apache_spark']["local_dir"]
-  local_dirs = Array(node['apache_spark']["local_dir"])
+elsif node['apache_spark']['local_dir']
+  local_dirs = Array(node['apache_spark']['local_dir'])
   local_dirs.each do |dir|
     # Discourage using comma-separated strings in Chef attributes
     raise "Spark local directory names cannot include a comma: #{dir}" if dir.include?(',')
@@ -111,8 +111,8 @@ end
 
 ([spark_install_dir,
   spark_conf_dir,
-  node['apache_spark']["standalone"]["log_dir"],
-  node['apache_spark']["standalone"]["worker_work_dir"]] + local_dirs).each do |dir|
+  node['apache_spark']['standalone']['log_dir'],
+  node['apache_spark']['standalone']['worker_work_dir']] + local_dirs).each do |dir|
   directory dir do
     mode 0755
     owner spark_user
@@ -123,15 +123,15 @@ end
 end
 
 template "#{spark_conf_dir}/spark-env.sh" do
-  source "spark-env.sh.erb"
+  source 'spark-env.sh.erb'
   mode 0644
   owner spark_user
   group spark_group
-  variables node['apache_spark']["standalone"]
+  variables node['apache_spark']['standalone']
 end
 
-bash "Change ownership of Spark installation directory" do
-  user "root"
+bash 'Change ownership of Spark installation directory' do
+  user 'root'
   code "chown -R spark:spark #{spark_install_dir}"
 end
 

@@ -50,24 +50,24 @@ template '/usr/local/bin/clean_spark_worker_dir.rb' do
   variables ruby_interpreter: RbConfig.ruby
 end
 
-worker_dir_cleanup_log = node['apache_spark']['standalone']["worker_dir_cleanup_log"]
-cron "clean_spark_worker_dir" do
+worker_dir_cleanup_log = node['apache_spark']['standalone']['worker_dir_cleanup_log']
+cron 'clean_spark_worker_dir' do
   minute 15
   hour 0
-  command "/usr/local/bin/clean_spark_worker_dir.rb " +
+  command '/usr/local/bin/clean_spark_worker_dir.rb ' +
       "--worker_dir #{node['apache_spark']['standalone']['worker_work_dir']} " +
-      "--days_retained #{node['apache_spark']['standalone']["job_dir_days_retained"]} " +
-      "--num_retained #{node['apache_spark']['standalone']["job_dir_num_retained"]} " +
+      "--days_retained #{node['apache_spark']['standalone']['job_dir_days_retained']} " +
+      "--num_retained #{node['apache_spark']['standalone']['job_dir_num_retained']} " +
       "&>> #{worker_dir_cleanup_log}"
 end
 
 # logrotate for the log cleanup script
-logrotate_app "worker-dir-cleanup-log" do
-  cookbook "logrotate"
+logrotate_app 'worker-dir-cleanup-log' do
+  cookbook 'logrotate'
   path worker_dir_cleanup_log
-  frequency "daily"
+  frequency 'daily'
   rotate 3  # keep this many logs
-  create "0644 root root"
+  create '0644 root root'
 end
 
 # Run Spark standalone worker with Monit
