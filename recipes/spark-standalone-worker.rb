@@ -72,7 +72,8 @@ end
 
 # Run Spark standalone worker with Monit
 service_name = 'spark-standalone-worker'
-master_host_port = format('%s:%d',
+master_host_port = format(
+  '%s:%d',
   node['apache_spark']['standalone']['master_host'],
   node['apache_spark']['standalone']['master_port'].to_i
 )

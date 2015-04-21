@@ -45,8 +45,11 @@ describe_recipe 'apache_spark::spark-install' do
   it 'allows to run a Spark program (SparkPi)' do
     spark_install_dir = node['apache_spark']['install_dir']
     spark_examples_jars = Dir['/usr/share/spark/lib/spark-examples-*.jar']
-    assert_equal(1, spark_examples_jars.length,
-      "Expected exactly one Spark examples jar but found #{spark_examples_jars}.")
+    assert_equal(
+      1,
+      spark_examples_jars.length,
+      "Expected exactly one Spark examples jar but found #{spark_examples_jars}."
+    )
     spark_examples_jar = spark_examples_jars.first
 
     start_spark
