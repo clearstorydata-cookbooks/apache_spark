@@ -18,6 +18,8 @@ maintainer_email 'mbautin@clearstorydata.com'
 license          'Apache License 2.0'
 description      'A cookbook to install and configure Apache Spark'
 version          '1.0.0'
+source_url       'https://github.com/clearstorydata-cookbooks/apache_spark'
+issues_url       'https://github.com/clearstorydata-cookbooks/apache_spark/issues'
 
 %w( debian ubuntu ).each do |os|
   supports os
