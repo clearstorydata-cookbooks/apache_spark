@@ -30,8 +30,8 @@ template master_runner_script do
   owner spark_user
   group spark_group
   variables node['apache_spark']['standalone'].merge(
-              install_dir: node['apache_spark']['install_dir']
-            )
+    install_dir: node['apache_spark']['install_dir']
+  )
 end
 
 # Run Spark standalone master with Monit
@@ -40,9 +40,9 @@ monit_wrapper_monitor service_name do
   template_source "monit/#{service_name}.conf.erb"
   template_cookbook 'apache_spark'
   variables node['apache_spark']['standalone'].merge(
-              install_dir: node['apache_spark']['install_dir'],
-              master_runner_script: master_runner_script
-            )
+    install_dir: node['apache_spark']['install_dir'],
+    master_runner_script: master_runner_script
+  )
 end
 
 monit_wrapper_service service_name do
