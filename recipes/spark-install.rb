@@ -72,8 +72,8 @@ end
 
 # Allow specifying an interface name such as 'eth0' to make this work in single-node test
 # environments without specifying an explicit IP address.
-['master_host', 'master_bind_ip'].each do |key|
-  ['eth0', 'eth1'].each do |iface_name|
+%w(master_host master_bind_ip).each do |key|
+  %w(eth0 eth1).each do |iface_name|
     if node['apache_spark']['standalone'][key] == iface_name
       iface_ip_addr = node['network']['interfaces'][iface_name]['addresses'].keys[1]
       Chef::Log.info("Setting Spark #{key} to #{iface_ip_addr} (resolved from #{iface_name})")
