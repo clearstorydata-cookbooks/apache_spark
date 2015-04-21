@@ -81,8 +81,8 @@ is supported. Future work:
   Spark workers. A free port is chosen if this port is unavailable.
 * `node['apache_spark']['standalone']['executor_debug_port']`: default Java debug port to use for
   Spark standalone executors. A free port is chosen if this port is unavailable.
-* `node['apache_spark']['common_extra_classpath_items']`: common classpath items to add to
-  Spark application driver and executors (but not Spark master and worker processes).
+* `node['apache_spark']['standalone']['common_extra_classpath_items']`: common classpath items to
+  add to Spark application driver and executors (but not Spark master and worker processes).
 * `node['apache_spark']['conf']['...']`: Spark configuration options that go into the default
   Spark configuration file. See https://spark.apache.org/docs/latest/configuration.html for details.
 * `node['apache_spark']['standalone']['local_dirs']`: a list of local directories to use on workers.

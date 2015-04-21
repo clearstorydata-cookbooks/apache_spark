@@ -74,7 +74,7 @@ default['apache_spark']['standalone']['worker_debug_port'] = 23020
 default['apache_spark']['standalone']['executor_debug_port'] = 23030
 
 # Extra classpath items for both driver and executor processesses of Spark apps.
-default['apache_spark']['common_extra_classpath_items'] = []
+default['apache_spark']['standalone']['common_extra_classpath_items'] = []
 
 # Default configuration options for Spark.
 default['apache_spark']['conf']['spark.akka.frameSize'] = 100
