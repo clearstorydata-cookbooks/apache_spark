@@ -1,0 +1,1091 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Cookbook: apache_spark
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!chef/apache_spark.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../index.html">Index (a)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../chef.html" title="chef (chef)">chef</a></span></span>
+     &raquo; 
+    <span class="title">apache_spark</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="cookbooks_list_link"
+        href="../cookbooks_list.html">
+      Cookbook List
+    </a>
+  
+    <a class="full_list_link" id="recipes_list_link"
+        href="../recipes_list.html">
+      Recipe List
+    </a>
+  
+    <a class="full_list_link" id="resources_list_link"
+        href="../resources_list.html">
+      Resource List
+    </a>
+  
+    <a class="full_list_link" id="definitions_list_link"
+        href="../definitions_list.html">
+      Definitions List
+    </a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Libraries List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content">
+
+<div id="filecontents">
+  <h1>Cookbook : apache_spark</h1>
+  
+
+<h1>apache_spark</h1>
+
+<p><a href="https://travis-ci.org/clearstorydata-cookbooks/apache_spark"><img src="https://travis-ci.org/clearstorydata-cookbooks/apache_spark.svg?branch=master" alt="Build Status"></a></p>
+
+<p>This cookbook installs and configures Apache Spark.</p>
+
+<ul>
+<li>GitHub: <a href="https://github.com/clearstorydata-cookbooks/apache_spark">https://github.com/clearstorydata-cookbooks/apache_spark</a></li>
+<li>Chef Supermarket: <a href="https://supermarket.chef.io/cookbooks/apache_spark">https://supermarket.chef.io/cookbooks/apache_spark</a></li>
+<li>Travis CI: <a href="https://travis-ci.org/clearstorydata-cookbooks/apache_spark">https://travis-ci.org/clearstorydata-cookbooks/apache_spark</a></li>
+<li>Documentation: <a href="http://clearstorydata-cookbooks.github.io/apache_spark/chef/apache_spark.html">http://clearstorydata-cookbooks.github.io/apache_spark/chef/apache_spark.html</a></li>
+</ul>
+
+
+
+<h1>Cookbook Documentation</h1>
+
+
+
+
+  <h2>Recipes Summary</h2>
+  <ul class="summary">
+    
+      <li>
+        <span class="summary_signature">
+          <strong><a href="#apache_spark::spark-user">apache_spark::spark-user</a></strong>
+        </span>
+        <span class="summary_desc"></span>
+      </li>
+    
+      <li>
+        <span class="summary_signature">
+          <strong><a href="#apache_spark::spark-install">apache_spark::spark-install</a></strong>
+        </span>
+        <span class="summary_desc"></span>
+      </li>
+    
+      <li>
+        <span class="summary_signature">
+          <strong><a href="#apache_spark::find-free-port">apache_spark::find-free-port</a></strong>
+        </span>
+        <span class="summary_desc"></span>
+      </li>
+    
+      <li>
+        <span class="summary_signature">
+          <strong><a href="#apache_spark::force-apt-update">apache_spark::force-apt-update</a></strong>
+        </span>
+        <span class="summary_desc"></span>
+      </li>
+    
+      <li>
+        <span class="summary_signature">
+          <strong><a href="#apache_spark::spark-standalone-master">apache_spark::spark-standalone-master</a></strong>
+        </span>
+        <span class="summary_desc"></span>
+      </li>
+    
+      <li>
+        <span class="summary_signature">
+          <strong><a href="#apache_spark::spark-standalone-worker">apache_spark::spark-standalone-worker</a></strong>
+        </span>
+        <span class="summary_desc"></span>
+      </li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="method_details_list">
+  
+
+
+
+  <h2>Recipe Details</h2>
+  
+    <div class="method_details first">
+      <h3 class="signature"><a name="apache_spark::spark-user">
+        <strong>apache_spark::spark-user</strong>
+      </a></h3>
+      
+      
+
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'recipes/spark-user.rb', line 1</span>
+
+<span class='comment'># Copyright © 2015 ClearStory Data, Inc.
+</span><span class='comment'>#
+</span><span class='comment'># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+</span><span class='comment'># you may not use this file except in compliance with the License.
+</span><span class='comment'># You may obtain a copy of the License at
+</span><span class='comment'>#
+</span><span class='comment'>#     http://www.apache.org/licenses/LICENSE-2.0
+</span><span class='comment'>#
+</span><span class='comment'># Unless required by applicable law or agreed to in writing, software
+</span><span class='comment'># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+</span><span class='comment'># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><span class='comment'># See the License for the specific language governing permissions and
+</span><span class='comment'># limitations under the License.
+</span>
+<span class='id identifier rubyid_spark_user'>spark_user</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_spark_group'>spark_group</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>group</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_group'>group</span> <span class='id identifier rubyid_spark_group'>spark_group</span>
+
+<span class='id identifier rubyid_user'>user</span> <span class='id identifier rubyid_spark_user'>spark_user</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_comment'>comment</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Apache Spark Framework</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_gid'>gid</span> <span class='id identifier rubyid_spark_group'>spark_group</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+
+    </div>
+  
+    <div class="method_details ">
+      <h3 class="signature"><a name="apache_spark::spark-install">
+        <strong>apache_spark::spark-install</strong>
+      </a></h3>
+      
+      
+
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'recipes/spark-install.rb', line 1</span>
+
+<span class='comment'># Copyright © 2015 ClearStory Data, Inc.
+</span><span class='comment'>#
+</span><span class='comment'># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+</span><span class='comment'># you may not use this file except in compliance with the License.
+</span><span class='comment'># You may obtain a copy of the License at
+</span><span class='comment'>#
+</span><span class='comment'>#     http://www.apache.org/licenses/LICENSE-2.0
+</span><span class='comment'>#
+</span><span class='comment'># Unless required by applicable law or agreed to in writing, software
+</span><span class='comment'># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+</span><span class='comment'># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><span class='comment'># See the License for the specific language governing permissions and
+</span><span class='comment'># limitations under the License.
+</span>
+<span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark::find-free-port</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark::spark-user</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_spark_user'>spark_user</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_spark_group'>spark_group</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>group</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_install_mode'>install_mode</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_mode</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_spark_install_dir'>spark_install_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_spark_conf_dir'>spark_conf_dir</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_spark_install_dir'>spark_install_dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>conf</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+<span class='kw'>case</span> <span class='id identifier rubyid_install_mode'>install_mode</span>
+<span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>package</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_package'>package</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pkg_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_version'>version</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pkg_version</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tarball</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_install_base_dir'>install_base_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_base_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_directory'>directory</span> <span class='id identifier rubyid_install_base_dir'>install_base_dir</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_user'>user</span> <span class='id identifier rubyid_spark_user'>spark_user</span>
+    <span class='id identifier rubyid_group'>group</span> <span class='id identifier rubyid_spark_group'>spark_group</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_tarball_basename'>tarball_basename</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>download_url</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_downloaded_tarball_path'>downloaded_tarball_path</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>Chef</span><span class='op'>::</span><span class='const'>Config</span><span class='lbracket'>[</span><span class='symbol'>:file_cache_path</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_tarball_basename'>tarball_basename</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_tarball_url'>tarball_url</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>download_url</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='const'>Chef</span><span class='op'>::</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tarball_url'>tarball_url</span><span class='embexpr_end'>}</span><span class='tstring_content'> will be downloaded to </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_downloaded_tarball_path'>downloaded_tarball_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_remote_file'>remote_file</span> <span class='id identifier rubyid_downloaded_tarball_path'>downloaded_tarball_path</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_source'>source</span> <span class='id identifier rubyid_tarball_url'>tarball_url</span>
+    <span class='id identifier rubyid_checksum'>checksum</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>checksum</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_extracted_dir_name'>extracted_dir_name</span> <span class='op'>=</span> <span class='id identifier rubyid_tarball_basename'>tarball_basename</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[.](tar[.]gz|tgz)$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+  <span class='const'>Chef</span><span class='op'>::</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_downloaded_tarball_path'>downloaded_tarball_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> will be extracted in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_install_base_dir'>install_base_dir</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_actual_install_dir'>actual_install_dir</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_install_base_dir'>install_base_dir</span><span class='comma'>,</span> <span class='id identifier rubyid_extracted_dir_name'>extracted_dir_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_tar_extract'>tar_extract</span> <span class='id identifier rubyid_downloaded_tarball_path'>downloaded_tarball_path</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:extract_local</span>
+    <span class='id identifier rubyid_target_dir'>target_dir</span> <span class='id identifier rubyid_install_base_dir'>install_base_dir</span>
+    <span class='id identifier rubyid_creates'>creates</span> <span class='id identifier rubyid_actual_install_dir'>actual_install_dir</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_link'>link</span> <span class='id identifier rubyid_spark_install_dir'>spark_install_dir</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_actual_install_dir'>actual_install_dir</span>
+  <span class='kw'>end</span>
+<span class='kw'>else</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid Apache Spark installation mode: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_install_mode'>install_mode</span><span class='embexpr_end'>}</span><span class='tstring_content'>. &#39;package&#39; or &#39;tarball&#39; required.</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+
+<span class='comment'># set_default_using_dns([&#39;apache_spark&#39;, &#39;standalone&#39;, &#39;master_host&#39;], &#39;spark-master&#39;)
+</span><span class='comment'># set_default_using_dns([&#39;apache_spark&#39;, &#39;standalone&#39;, &#39;master_bind_ip&#39;], &#39;spark-master&#39;)
+</span>
+<span class='kw'>unless</span> <span class='const'>Chef</span><span class='op'>::</span><span class='const'>Config</span><span class='lbracket'>[</span><span class='symbol'>:solo</span><span class='rbracket'>]</span>
+  <span class='comment'># Bind the worker to the real network interface. We are assuming that /etc/hosts or DNS
+</span>  <span class='comment'># is set up so that this name resolves correctly.
+</span>  <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_override'>override</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>worker_bind_ip</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hostname</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_domain_suffix'>domain_suffix</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+
+<span class='comment'># Allow specifying an interface name such as &#39;eth0&#39; to make this work in single-node test
+</span><span class='comment'># environments without specifying an explicit IP address.
+</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>master_host</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>master_bind_ip</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span>
+  <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>eth0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>eth1</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_iface_name'>iface_name</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_iface_name'>iface_name</span>
+      <span class='id identifier rubyid_iface_ip_addr'>iface_ip_addr</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>network</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>interfaces</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_iface_name'>iface_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>addresses</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+      <span class='const'>Chef</span><span class='op'>::</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Setting Spark </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> to </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_iface_ip_addr'>iface_ip_addr</span><span class='embexpr_end'>}</span><span class='tstring_content'> (resolved from </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_iface_name'>iface_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_override'>override</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_iface_ip_addr'>iface_ip_addr</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>csd-ec2-ephemeral</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mounts</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>csd-ec2-ephemeral</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mounts</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span>
+  <span class='id identifier rubyid_local_dirs'>local_dirs</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>csd-ec2-ephemeral</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mounts</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_mount'>mount</span><span class='op'>|</span>
+    <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_mount'>mount</span><span class='lbracket'>[</span><span class='symbol'>:mount_point</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>local</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_local_dirs'>local_dirs</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_local_dirs'>local_dirs</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>0</span><span class='op'>..</span><span class='int'>3</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/mnt/ephemeral</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_i'>i</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>
+</span><span class='id identifier rubyid_                       .select'>                       .select</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span><span class='lparen'>(</span><span class='id identifier rubyid_d'>d</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>
+</span><span class='id identifier rubyid_                       .map'>                       .map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_d'>d</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>local</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='const'>Chef</span><span class='op'>::</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EC2 ephemeral mount list is empty. Setting Spark local directories based on existing </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/mnt/ephemeral{0,1,2,3} directories: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_local_dirs'>local_dirs</span><span class='embexpr_end'>}</span><span class='tstring_content'>. This might not be correct. </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>It is recommended that node[&#39;apache_spark&#39;][&#39;local_dir&#39;] is explicitly set instead.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='const'>Chef</span><span class='op'>::</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Setting Spark local directories automatically </span><span class='tstring_end'>&#39;</span></span> \
+                   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>based on EC2 ephemeral devices: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_local_dirs'>local_dirs</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>elsif</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>local_dir</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_local_dirs'>local_dirs</span> <span class='op'>=</span> <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>local_dir</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_local_dirs'>local_dirs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dir'>dir</span><span class='op'>|</span>
+    <span class='comment'># Discourage using comma-separated strings in Chef attributes
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Spark local directory names cannot include a comma: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_dir'>dir</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_dir'>dir</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>,</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>else</span>
+  <span class='id identifier rubyid_local_dirs'>local_dirs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/var/local/spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span>
+
+<span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_spark_install_dir'>spark_install_dir</span><span class='comma'>,</span>
+  <span class='id identifier rubyid_spark_conf_dir'>spark_conf_dir</span><span class='comma'>,</span>
+  <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>log_dir</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>worker_work_dir</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_local_dirs'>local_dirs</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dir'>dir</span><span class='op'>|</span>
+  <span class='id identifier rubyid_directory'>directory</span> <span class='id identifier rubyid_dir'>dir</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_mode'>mode</span> <span class='int'>0755</span>
+    <span class='id identifier rubyid_owner'>owner</span> <span class='id identifier rubyid_spark_user'>spark_user</span>
+    <span class='id identifier rubyid_group'>group</span> <span class='id identifier rubyid_spark_group'>spark_group</span>
+    <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:create</span>
+    <span class='id identifier rubyid_recursive'>recursive</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_template'>template</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_spark_conf_dir'>spark_conf_dir</span><span class='embexpr_end'>}</span><span class='tstring_content'>/spark-env.sh</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_source'>source</span>    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>spark-env.sh.erb</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_mode'>mode</span>      <span class='int'>0644</span>
+  <span class='id identifier rubyid_owner'>owner</span>     <span class='id identifier rubyid_spark_user'>spark_user</span>
+  <span class='id identifier rubyid_group'>group</span>     <span class='id identifier rubyid_spark_group'>spark_group</span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_bash'>bash</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Change ownership of Spark installation directory</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_user'>user</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>root</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_code'>code</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>chown -R spark:spark </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_spark_install_dir'>spark_install_dir</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_template'>template</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_spark_conf_dir'>spark_conf_dir</span><span class='embexpr_end'>}</span><span class='tstring_content'>/log4j.properties</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_source'>source</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark_log4j.properties.erb</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_mode'>mode</span>      <span class='int'>0644</span>
+  <span class='id identifier rubyid_owner'>owner</span>     <span class='id identifier rubyid_spark_user'>spark_user</span>
+  <span class='id identifier rubyid_group'>group</span>     <span class='id identifier rubyid_spark_group'>spark_group</span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_common_extra_classpath_items'>common_extra_classpath_items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='comment'># common_extra_classpath_items = [
+</span><span class='comment'>#   node[&#39;hadoop&#39;][&#39;hive&#39;][&#39;mysql&#39;][&#39;connector_jar&#39;],
+</span><span class='comment'>#   node[&#39;hadoop&#39;][&#39;hive&#39;][&#39;conf_dir&#39;]
+</span><span class='comment'># ]
+</span>
+<span class='comment'># if common_extra_classpath_items.any?(&amp;:nil?)
+</span><span class='comment'>#   raise &quot;Some extra classpath items for Spark are not set: #{common_extra_classpath_items}&quot;
+</span><span class='comment'># end
+</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_override'>override</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>common_extra_classpath_items</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_common_extra_classpath_items'>common_extra_classpath_items</span>
+
+<span class='id identifier rubyid_local_dirs'>local_dirs</span> <span class='op'>||=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>local_dirs</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_common_extra_classpath_items'>common_extra_classpath_items</span> <span class='op'>||=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>common_extra_classpath_items</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_default_executor_mem_mb'>default_executor_mem_mb</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>default_executor_mem_mb</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_template'>template</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_spark_conf_dir'>spark_conf_dir</span><span class='embexpr_end'>}</span><span class='tstring_content'>/spark-defaults.conf</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_source'>source</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark-defaults.conf.erb</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_mode'>mode</span>      <span class='int'>0644</span>
+  <span class='id identifier rubyid_owner'>owner</span>     <span class='id identifier rubyid_spark_user'>spark_user</span>
+  <span class='id identifier rubyid_group'>group</span>     <span class='id identifier rubyid_spark_group'>spark_group</span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='label'>options:</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>conf</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark.driver.extraClassPath</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_common_extra_classpath_items'>common_extra_classpath_items</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark.executor.extraClassPath</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_common_extra_classpath_items'>common_extra_classpath_items</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark.executor.memory</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_default_executor_mem_mb'>default_executor_mem_mb</span><span class='embexpr_end'>}</span><span class='tstring_content'>m</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark.local.dir</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_local_dirs'>local_dirs</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>,</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+
+    </div>
+  
+    <div class="method_details ">
+      <h3 class="signature"><a name="apache_spark::find-free-port">
+        <strong>apache_spark::find-free-port</strong>
+      </a></h3>
+      
+      
+
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'recipes/find-free-port.rb', line 1</span>
+
+<span class='comment'># Copyright © 2015 ClearStory Data, Inc.
+</span><span class='comment'>#
+</span><span class='comment'># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+</span><span class='comment'># you may not use this file except in compliance with the License.
+</span><span class='comment'># You may obtain a copy of the License at
+</span><span class='comment'>#
+</span><span class='comment'>#     http://www.apache.org/licenses/LICENSE-2.0
+</span><span class='comment'>#
+</span><span class='comment'># Unless required by applicable law or agreed to in writing, software
+</span><span class='comment'># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+</span><span class='comment'># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><span class='comment'># See the License for the specific language governing permissions and
+</span><span class='comment'># limitations under the License.
+</span>
+<span class='id identifier rubyid_template'>template</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/usr/local/bin/find-free-port.rb</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_source'>source</span>    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>find-free-port.rb.erb</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_mode'>mode</span>      <span class='int'>0755</span>
+  <span class='id identifier rubyid_owner'>owner</span>     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>root</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_group'>group</span>     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>root</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='label'>ruby_interpreter:</span> <span class='const'>RbConfig</span><span class='period'>.</span><span class='id identifier rubyid_ruby'>ruby</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+
+    </div>
+  
+    <div class="method_details ">
+      <h3 class="signature"><a name="apache_spark::force-apt-update">
+        <strong>apache_spark::force-apt-update</strong>
+      </a></h3>
+      
+      
+
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1
+2
+3
+4</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'recipes/force-apt-update.rb', line 1</span>
+
+<span class='id identifier rubyid_execute'>execute</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apt-get update</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apt-get update</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:nothing</span>
+<span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:run</span><span class='rparen'>)</span></pre>
+    </td>
+  </tr>
+</table>
+
+    </div>
+  
+    <div class="method_details ">
+      <h3 class="signature"><a name="apache_spark::spark-standalone-master">
+        <strong>apache_spark::spark-standalone-master</strong>
+      </a></h3>
+      
+      
+
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'recipes/spark-standalone-master.rb', line 1</span>
+
+<span class='comment'># Copyright © 2015 ClearStory Data, Inc.
+</span><span class='comment'>#
+</span><span class='comment'># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+</span><span class='comment'># you may not use this file except in compliance with the License.
+</span><span class='comment'># You may obtain a copy of the License at
+</span><span class='comment'>#
+</span><span class='comment'>#     http://www.apache.org/licenses/LICENSE-2.0
+</span><span class='comment'>#
+</span><span class='comment'># Unless required by applicable law or agreed to in writing, software
+</span><span class='comment'># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+</span><span class='comment'># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><span class='comment'># See the License for the specific language governing permissions and
+</span><span class='comment'># limitations under the License.
+</span>
+<span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark::spark-install</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit_wrapper</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='comment'># Do these at compile time so we can query process status at compile time.
+</span><span class='id identifier rubyid_package'>package</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:install</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_service'>service</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:start</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_master_runner_script'>master_runner_script</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>bin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>master_runner.sh</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_spark_user'>spark_user</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_spark_group'>spark_group</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>group</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_template'>template</span> <span class='id identifier rubyid_master_runner_script'>master_runner_script</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_source'>source</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark_master_runner.sh.erb</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_mode'>mode</span>      <span class='int'>0744</span>
+  <span class='id identifier rubyid_owner'>owner</span>     <span class='id identifier rubyid_spark_user'>spark_user</span>
+  <span class='id identifier rubyid_group'>group</span>     <span class='id identifier rubyid_spark_group'>spark_group</span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span>
+              <span class='label'>install_dir:</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+            <span class='rparen'>)</span>
+<span class='kw'>end</span>
+
+<span class='comment'># Run Spark standalone master with Monit
+</span><span class='id identifier rubyid_service_name'>service_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark-standalone-master</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_monit_wrapper_monitor'>monit_wrapper_monitor</span> <span class='id identifier rubyid_service_name'>service_name</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_template_source'>template_source</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.conf.erb</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_template_cookbook'>template_cookbook</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span>
+              <span class='label'>install_dir:</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+              <span class='label'>master_runner_script:</span> <span class='id identifier rubyid_master_runner_script'>master_runner_script</span>
+            <span class='rparen'>)</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_monit_wrapper_service'>monit_wrapper_service</span> <span class='id identifier rubyid_service_name'>service_name</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:start</span>
+  <span class='id identifier rubyid_restart_action'>restart_action</span> <span class='op'>=</span> <span class='id identifier rubyid_monit_service_exists_and_running?'>monit_service_exists_and_running?</span><span class='lparen'>(</span><span class='id identifier rubyid_service_name'>service_name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:restart</span> <span class='op'>:</span> <span class='symbol'>:start</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>package[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pkg_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit-wrapper_monitor[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_master_runner_script'>master_runner_script</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+<span class='kw'>end</span>
+
+<span class='comment'># ddns_alias &#39;spark-master&#39; do
+</span><span class='comment'>#   dns_master (node[&#39;ddns&#39;] || {})[&#39;master&#39;]
+</span><span class='comment'>#   domain (node[&#39;ddns&#39;] || {})[&#39;domain&#39;]
+</span><span class='comment'>#   debug true
+</span><span class='comment'>#   only_if_configured true
+</span><span class='comment'># end</span></pre>
+    </td>
+  </tr>
+</table>
+
+    </div>
+  
+    <div class="method_details ">
+      <h3 class="signature"><a name="apache_spark::spark-standalone-worker">
+        <strong>apache_spark::spark-standalone-worker</strong>
+      </a></h3>
+      
+      
+
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'recipes/spark-standalone-worker.rb', line 1</span>
+
+<span class='comment'># Copyright © 2015 ClearStory Data, Inc.
+</span><span class='comment'>#
+</span><span class='comment'># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+</span><span class='comment'># you may not use this file except in compliance with the License.
+</span><span class='comment'># You may obtain a copy of the License at
+</span><span class='comment'>#
+</span><span class='comment'>#     http://www.apache.org/licenses/LICENSE-2.0
+</span><span class='comment'>#
+</span><span class='comment'># Unless required by applicable law or agreed to in writing, software
+</span><span class='comment'># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+</span><span class='comment'># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><span class='comment'># See the License for the specific language governing permissions and
+</span><span class='comment'># limitations under the License.
+</span>
+<span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark::spark-install</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit_wrapper</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='comment'># Do these at compile time so we can query process status immediately.
+</span><span class='id identifier rubyid_package'>package</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:install</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_service'>service</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:start</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_worker_runner_script'>worker_runner_script</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>worker_runner.sh</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_spark_user'>spark_user</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_spark_group'>spark_group</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>group</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_template'>template</span> <span class='id identifier rubyid_worker_runner_script'>worker_runner_script</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_source'>source</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark_worker_runner.sh.erb</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_mode'>mode</span>      <span class='int'>0744</span>
+  <span class='id identifier rubyid_owner'>owner</span>     <span class='id identifier rubyid_spark_user'>spark_user</span>
+  <span class='id identifier rubyid_group'>group</span>     <span class='id identifier rubyid_spark_group'>spark_group</span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span>
+              <span class='label'>install_dir:</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+            <span class='rparen'>)</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_directory'>directory</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>worker_work_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_mode'>mode</span> <span class='int'>0755</span>
+  <span class='id identifier rubyid_owner'>owner</span> <span class='id identifier rubyid_spark_user'>spark_user</span>
+  <span class='id identifier rubyid_group'>group</span> <span class='id identifier rubyid_spark_group'>spark_group</span>
+  <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:create</span>
+  <span class='id identifier rubyid_recursive'>recursive</span> <span class='kw'>true</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_template'>template</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/usr/local/bin/clean_spark_worker_dir.rb</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_source'>source</span>    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>clean_spark_worker_dir.rb.erb</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_mode'>mode</span>      <span class='int'>0755</span>
+  <span class='id identifier rubyid_owner'>owner</span>     <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>root</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_group'>group</span>     <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>root</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='label'>ruby_interpreter:</span> <span class='const'>RbConfig</span><span class='period'>.</span><span class='id identifier rubyid_ruby'>ruby</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_worker_dir_cleanup_log'>worker_dir_cleanup_log</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>worker_dir_cleanup_log</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_cron'>cron</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>clean_spark_worker_dir</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_minute'>minute</span> <span class='int'>15</span>
+  <span class='id identifier rubyid_hour'>hour</span> <span class='int'>0</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/usr/local/bin/clean_spark_worker_dir.rb </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--worker_dir </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>worker_work_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--days_retained </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>job_dir_days_retained</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--num_retained </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>job_dir_num_retained</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&amp;&gt;&gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_dir_cleanup_log'>worker_dir_cleanup_log</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+
+<span class='comment'># logrotate for the log cleanup script
+</span><span class='id identifier rubyid_logrotate_app'>logrotate_app</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>worker-dir-cleanup-log</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_cookbook'>cookbook</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>logrotate</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_path'>path</span> <span class='id identifier rubyid_worker_dir_cleanup_log'>worker_dir_cleanup_log</span>
+  <span class='id identifier rubyid_frequency'>frequency</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>daily</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_rotate'>rotate</span> <span class='int'>3</span>  <span class='comment'># keep this many logs
+</span>  <span class='id identifier rubyid_create'>create</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0644 root root</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+
+<span class='comment'># Run Spark standalone worker with Monit
+</span><span class='id identifier rubyid_service_name'>service_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spark-standalone-worker</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_master_host_port'>master_host_port</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>%s:%d</span><span class='tstring_end'>&#39;</span></span> <span class='op'>%</span> <span class='lbracket'>[</span>
+  <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>master_host</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>master_port</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+<span class='rbracket'>]</span>
+<span class='id identifier rubyid_monit_wrapper_monitor'>monit_wrapper_monitor</span> <span class='id identifier rubyid_service_name'>service_name</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_wait_for_host_port'>wait_for_host_port</span> <span class='id identifier rubyid_master_host_port'>master_host_port</span>
+  <span class='id identifier rubyid_template_source'>template_source</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.conf.erb</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_template_cookbook'>template_cookbook</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_variables'>variables</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span>
+              <span class='label'>install_dir:</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+              <span class='label'>worker_runner_script:</span> <span class='id identifier rubyid_worker_runner_script'>worker_runner_script</span>
+            <span class='rparen'>)</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_monit_wrapper_service'>monit_wrapper_service</span> <span class='id identifier rubyid_service_name'>service_name</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:start</span>
+  <span class='id identifier rubyid_wait_for_host_port'>wait_for_host_port</span> <span class='id identifier rubyid_master_host_port'>master_host_port</span>
+  <span class='id identifier rubyid_restart_action'>restart_action</span> <span class='op'>=</span> <span class='id identifier rubyid_monit_service_exists_and_running?'>monit_service_exists_and_running?</span><span class='lparen'>(</span><span class='id identifier rubyid_service_name'>service_name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:restart</span> <span class='op'>:</span> <span class='symbol'>:start</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>package[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pkg_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit-wrapper_monitor[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit-wrapper_notify_if_not_running[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_runner_script'>worker_runner_script</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+
+    </div>
+  
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+</div>
+
+    <div id="footer">
+  Generated on Mon Apr 20 19:25:28 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.5).
+</div>
+
+  </body>
+</html>
