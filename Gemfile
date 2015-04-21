@@ -16,5 +16,6 @@ group :integration do
 end
 
 group :documentation do
-  gem 'yard', '~> 0.8'
+  gem 'yard'
+  gem 'yard-chef'
 end
