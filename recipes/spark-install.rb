@@ -123,10 +123,10 @@ end
 end
 
 template "#{spark_conf_dir}/spark-env.sh" do
-  source    "spark-env.sh.erb"
-  mode      0644
-  owner     spark_user
-  group     spark_group
+  source "spark-env.sh.erb"
+  mode 0644
+  owner spark_user
+  group spark_group
   variables node['apache_spark']["standalone"]
 end
 
@@ -136,10 +136,10 @@ bash "Change ownership of Spark installation directory" do
 end
 
 template "#{spark_conf_dir}/log4j.properties" do
-  source    'spark_log4j.properties.erb'
-  mode      0644
-  owner     spark_user
-  group     spark_group
+  source 'spark_log4j.properties.erb'
+  mode 0644
+  owner spark_user
+  group spark_group
   variables node['apache_spark']['standalone']
 end
 
@@ -159,10 +159,10 @@ common_extra_classpath_items ||= node['apache_spark']['standalone']['common_extr
 default_executor_mem_mb = node['apache_spark']['standalone']['default_executor_mem_mb']
 
 template "#{spark_conf_dir}/spark-defaults.conf" do
-  source    'spark-defaults.conf.erb'
-  mode      0644
-  owner     spark_user
-  group     spark_group
+  source 'spark-defaults.conf.erb'
+  mode 0644
+  owner spark_user
+  group spark_group
   variables options: node['apache_spark']['conf'].to_hash.merge(
     'spark.driver.extraClassPath' => common_extra_classpath_items.join(':'),
     'spark.executor.extraClassPath' => common_extra_classpath_items.join(':'),

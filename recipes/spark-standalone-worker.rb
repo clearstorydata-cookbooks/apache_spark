@@ -25,10 +25,10 @@ spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
 
 template worker_runner_script do
-  source    'spark_worker_runner.sh.erb'
-  mode      0744
-  owner     spark_user
-  group     spark_group
+  source 'spark_worker_runner.sh.erb'
+  mode 0744
+  owner spark_user
+  group spark_group
   variables node['apache_spark']['standalone'].merge(
               install_dir: node['apache_spark']['install_dir']
             )
@@ -43,10 +43,10 @@ directory node['apache_spark']['standalone']['worker_work_dir'] do
 end
 
 template '/usr/local/bin/clean_spark_worker_dir.rb' do
-  source    'clean_spark_worker_dir.rb.erb'
-  mode      0755
-  owner     'root'
-  group     'root'
+  source 'clean_spark_worker_dir.rb.erb'
+  mode 0755
+  owner 'root'
+  group 'root'
   variables ruby_interpreter: RbConfig.ruby
 end
 

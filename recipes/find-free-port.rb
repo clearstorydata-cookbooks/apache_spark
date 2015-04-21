@@ -13,9 +13,9 @@
 # limitations under the License.
 
 template "/usr/local/bin/find-free-port.rb" do
-  source    "find-free-port.rb.erb"
-  mode      0755
-  owner     "root"
-  group     "root"
+  source "find-free-port.rb.erb"
+  mode 0755
+  owner "root"
+  group "root"
   variables ruby_interpreter: RbConfig.ruby
 end

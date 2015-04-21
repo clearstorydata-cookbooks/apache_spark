@@ -25,10 +25,10 @@ spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
 
 template master_runner_script do
-  source    'spark_master_runner.sh.erb'
-  mode      0744
-  owner     spark_user
-  group     spark_group
+  source 'spark_master_runner.sh.erb'
+  mode 0744
+  owner spark_user
+  group spark_group
   variables node['apache_spark']['standalone'].merge(
               install_dir: node['apache_spark']['install_dir']
             )
