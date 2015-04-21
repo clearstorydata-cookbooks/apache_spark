@@ -67,7 +67,7 @@ if [ -z "${DEBUG_PORT:-}" ]; then
       spark.deploy.master.Master) DEBUG_PORT=<%= @master_debug_port %>; break ;;
       spark.deploy.worker.Worker) DEBUG_PORT=<%= @worker_debug_port %>; break ;;
       spark.executor.StandaloneExecutorBackend)
-        DEBUG_PORT=<%= @standalone_executor_debug_port %>; break ;;
+        DEBUG_PORT=<%= @executor_debug_port %>; break ;;
     esac
   done
   if [ -z "${DEBUG_PORT:-}" ]; then
