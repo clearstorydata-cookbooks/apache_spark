@@ -15,6 +15,7 @@ if git branch | grep gh-pages; then
 else
   git checkout -b gh-pages
 fi
+git pull --rebase origin gh-pages
 rm -rf ./*
 cp -R ../../doc/* .
 
