@@ -23,6 +23,14 @@ module Helpers
     include Chef::MonitWrapper::Status
     include Chef::MonitWrapper::StartStop
 
+    def start_spark
+      start_monit_service('spark-standalone-master')
+      assert_equal('Running', get_stable_monit_service_status('spark-standalone-master'))
+
+      start_monit_service('spark-standalone-worker')
+      assert_equal('Running', get_stable_monit_service_status('spark-standalone-worker'))
+    end
+
     def stop_spark
       stop_monit_service('spark-standalone-master')
       assert_equal('Not monitored', get_stable_monit_service_status('spark-standalone-master'))

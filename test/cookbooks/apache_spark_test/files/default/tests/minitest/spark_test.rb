@@ -43,4 +43,24 @@ describe_recipe 'apache_spark::spark-install' do
     assert_equal('Not monitored', get_stable_monit_service_status('spark-standalone-master'))
   end
 
+  it 'allows to run a Spark program (SparkPi)' do
+    spark_install_dir = node['apache_spark']['install_dir']
+    spark_examples_jars = Dir["/usr/share/spark/lib/spark-examples-*.jar"]
+    assert_equal(1, spark_examples_jars.length,
+      "Expected exactly one Spark examples jar but found #{spark_examples_jars}.")
+    spark_examples_jar = spark_examples_jars.first
+
+    start_spark
+    spark_pi_result = shell_out!(
+      "sudo -u spark #{spark_install_dir}/bin/spark-submit " \
+      "--class org.apache.spark.examples.SparkPi " \
+      "--deploy-mode client " \
+      "--master spark://localhost:7077 " \
+      "#{spark_examples_jar} 100")
+    expected_msg = 'Pi is roughly 3.14'
+    assert(
+      spark_pi_result.stdout.include?(expected_msg),
+      "Expected stdout to say '#{expected_msg}'. Actual stdout:\n#{stdout}\n\nStderr:\n#{stderr}")
+  end
+
 end
