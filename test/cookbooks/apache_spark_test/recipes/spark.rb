@@ -15,9 +15,10 @@ service 'hadoop-hdfs-namenode' do
   action :stop
 end
 
-# Reformat the namenode before every test.
+# Try to reformat the namenode. Ignore failures here -- formatting will only happen once.
 execute 'hdfs-namenode-format' do
   action :run
+  ignore_failure true
 end
 
 # Start namenode/datanode.

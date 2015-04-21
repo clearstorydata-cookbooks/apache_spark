@@ -37,6 +37,8 @@ suites:
         core_site:
           fs.defaultFS: hdfs://localhost:54310
       sysctl: {}
+      monit:
+        polling_frequency: 3  # for faster tests
       minitest:
         recipes:
           - apache_spark_test::spark
