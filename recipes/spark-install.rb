@@ -167,6 +167,6 @@ template "#{spark_conf_dir}/spark-defaults.conf" do
     'spark.driver.extraClassPath' => common_extra_classpath_items.join(':'),
     'spark.executor.extraClassPath' => common_extra_classpath_items.join(':'),
     'spark.executor.memory' => "#{default_executor_mem_mb}m",
-    'spark.local.dir' => local_dirs.join(','),
+    'spark.local.dir' => local_dirs.join(',')
   )
 end
