@@ -87,6 +87,117 @@
 <li>Travis CI: <a href="https://travis-ci.org/clearstorydata-cookbooks/apache_spark">https://travis-ci.org/clearstorydata-cookbooks/apache_spark</a></li>
 <li>Documentation: <a href="http://clearstorydata-cookbooks.github.io/apache_spark/chef/apache_spark.html">http://clearstorydata-cookbooks.github.io/apache_spark/chef/apache_spark.html</a></li>
 </ul>
+
+<h2>Overview</h2>
+
+<p>This cookbook installs and configures Apache Spark. Currently, only the standalone deployment mode
+is supported. Future work:</p>
+
+<ul>
+<li>YARN and Mesos deployment modes</li>
+<li>installs</li>
+</ul>
+
+<h2>Configuration</h2>
+
+<ul>
+<li><code>node[&#39;apache_spark&#39;][&#39;install_mode&#39;]</code>: <code>tarball</code> to install from a downloaded tarball,
+or <code>package</code> to install from an OS-specific package.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;download_url&#39;]</code>: the URL to download Apache Spark binary distribution
+tarball in the <code>tarball</code> installation mode.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;checksum&#39;]</code>: SHA256 checksum for the Apache Spark binary distribution
+tarball.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;pkg_name&#39;]</code>: package name to install in the <code>package</code> installation mode.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;pkg_version&#39;]</code>: package version to install in the <code>package</code> installation
+mode.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;install_dir&#39;]</code>: target directory to install Spark to in the <code>tarball</code>
+installation mode. In the <code>package</code> mode, this must be set to the directory that the package
+installs Spark into.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;install_base_dir&#39;]</code>: in the <code>tarball</code> installation mode, this is where
+the tarball is actually extracted, and a symlink pointing to the subdirectory containing a
+specific Spark version is created at <code>node[&#39;apache_spark&#39;][&#39;install_dir&#39;]</code>.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;user&#39;]</code>: UNIX user to create for running Spark.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;group&#39;]</code>: UNIX group to create for running Spark.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_host&#39;]</code>: Spark standalone-mode workers will connect to
+this host.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_bind_ip&#39;]</code>: the IP the master should bind to. This
+should be set in such a way that workers will be able to connect to the master.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_port&#39;]</code>: the port for the Spark standalone master to
+listen on.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_webui_port&#39;]</code>: Spark standalone master web UI port.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_bind_ip&#39;]</code>: the IP address workers bind to.
+They bind to all network interfaces by default.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_webui_port&#39;]</code>: the port for the Spark worker web UI
+to listen on.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;job_dir_days_retained&#39;]</code>: <code>app-...</code> subdirectories of
+<code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_work_dir&#39;]</code> older than this number of days will be
+deleted periodically on worker nodes to prevent unbounded accumulation. These directories contain
+Spark executor stdout/stderr logs. The directories will still be retained to honor
+<code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;job_dir_num_retained&#39;]</code>.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;job_dir_num_retained&#39;]</code>: the minimum number of Spark
+executor log directories (<code>app-...</code>) to retain, regardless of creation time.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_dir_cleanup_log&#39;]</code>: log file path for the Spark
+executor log directories cleanup script.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_cores&#39;]</code>: the number of &quot;cores&quot; (threads) to allocate
+on each worker node.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_work_dir&#39;]</code>: the directory to store Spark
+executor logs and Spark job jars.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_memory_mb&#39;]</code>: the amount of memory in MB to allocate
+to each worker (i.e. the maximum total memory used by different applications&#39; executors running
+on a worker node).</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;default_executor_mem_mb&#39;]</code>: the default amount of memory
+to be allocated to a Spark application&#39;s executor on each node.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;log_dir&#39;]</code>: the log directory for Spark masters and workers.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;daemon_root_logger&#39;]</code>: the <code>spark.root.logger</code> property
+is set to this.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;max_num_open_files&#39;]</code>: the maximum number of open files to
+set using <code>ulimit</code> before launching a worker.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;java_debug_enabled&#39;]</code>: whether Java debugging options are
+to be enabled for Spark processes. Note: currently, this option is not working as intended.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;default_debug_port&#39;]</code>: default Java debug port to use.
+A free port is chosen if this port is unavailable.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_debug_port&#39;]</code>: default Java debug port to use for
+Spark masters. A free port is chosen if this port is unavailable.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_debug_port&#39;]</code>: default Java debug port to use for
+Spark workers. A free port is chosen if this port is unavailable.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;executor_debug_port&#39;]</code>: default Java debug port to use for
+Spark standalone executors. A free port is chosen if this port is unavailable.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;common_extra_classpath_items&#39;]</code>: common classpath items to add to
+Spark application driver and executors (but not Spark master and worker processes).</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;conf&#39;][&#39;...&#39;]</code>: Spark configuration options that go into the default
+Spark configuration file. See <a href="https://spark.apache.org/docs/latest/configuration.html">https://spark.apache.org/docs/latest/configuration.html</a> for details.</li>
+</ul>
+
+<h2>Testing</h2>
+
+<h3>ChefSpec</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+<span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rspec'>rspec</span>
+</code></pre>
+
+<h3>Test Kitchen</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+<span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_kitchen'>kitchen</span> <span class='id identifier rubyid_test'>test</span>
+</code></pre>
+
+<h2>Contributing</h2>
+
+<p>If you would like to contribute this cookbook&#39;s development, please follow the steps below:</p>
+
+<ul>
+<li>Fork this repository on GitHub</li>
+<li>Make your changes</li>
+<li>Run tests</li>
+<li>Submit a pull request</li>
+</ul>
+
+<h2>License</h2>
+
+<p>Apache License 2.0</p>
+
+<p><a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a></p>
 </div>
 
 <h1>Cookbooks List</h1>
@@ -105,7 +216,7 @@
     <tr class="r1">
       <td><span class='object_link'><a href="chef/apache_spark.html" title="chef::apache_spark (cookbook)">apache_spark</a></span></td>
       <td>A cookbook to install and configure Apache Spark</td>
-      <td>1.0.2</td>
+      <td>1.0.3</td>
     </tr>
     
   
@@ -116,7 +227,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Apr 20 19:25:28 2015 by
+  Generated on Tue Apr 21 15:44:50 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.1.5).
 </div>

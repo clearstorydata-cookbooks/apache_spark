@@ -92,6 +92,117 @@
 <li>Documentation: <a href="http://clearstorydata-cookbooks.github.io/apache_spark/chef/apache_spark.html">http://clearstorydata-cookbooks.github.io/apache_spark/chef/apache_spark.html</a></li>
 </ul>
 
+<h2>Overview</h2>
+
+<p>This cookbook installs and configures Apache Spark. Currently, only the standalone deployment mode
+is supported. Future work:</p>
+
+<ul>
+<li>YARN and Mesos deployment modes</li>
+<li>installs</li>
+</ul>
+
+<h2>Configuration</h2>
+
+<ul>
+<li><code>node[&#39;apache_spark&#39;][&#39;install_mode&#39;]</code>: <code>tarball</code> to install from a downloaded tarball,
+or <code>package</code> to install from an OS-specific package.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;download_url&#39;]</code>: the URL to download Apache Spark binary distribution
+tarball in the <code>tarball</code> installation mode.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;checksum&#39;]</code>: SHA256 checksum for the Apache Spark binary distribution
+tarball.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;pkg_name&#39;]</code>: package name to install in the <code>package</code> installation mode.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;pkg_version&#39;]</code>: package version to install in the <code>package</code> installation
+mode.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;install_dir&#39;]</code>: target directory to install Spark to in the <code>tarball</code>
+installation mode. In the <code>package</code> mode, this must be set to the directory that the package
+installs Spark into.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;install_base_dir&#39;]</code>: in the <code>tarball</code> installation mode, this is where
+the tarball is actually extracted, and a symlink pointing to the subdirectory containing a
+specific Spark version is created at <code>node[&#39;apache_spark&#39;][&#39;install_dir&#39;]</code>.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;user&#39;]</code>: UNIX user to create for running Spark.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;group&#39;]</code>: UNIX group to create for running Spark.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_host&#39;]</code>: Spark standalone-mode workers will connect to
+this host.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_bind_ip&#39;]</code>: the IP the master should bind to. This
+should be set in such a way that workers will be able to connect to the master.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_port&#39;]</code>: the port for the Spark standalone master to
+listen on.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_webui_port&#39;]</code>: Spark standalone master web UI port.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_bind_ip&#39;]</code>: the IP address workers bind to.
+They bind to all network interfaces by default.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_webui_port&#39;]</code>: the port for the Spark worker web UI
+to listen on.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;job_dir_days_retained&#39;]</code>: <code>app-...</code> subdirectories of
+<code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_work_dir&#39;]</code> older than this number of days will be
+deleted periodically on worker nodes to prevent unbounded accumulation. These directories contain
+Spark executor stdout/stderr logs. The directories will still be retained to honor
+<code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;job_dir_num_retained&#39;]</code>.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;job_dir_num_retained&#39;]</code>: the minimum number of Spark
+executor log directories (<code>app-...</code>) to retain, regardless of creation time.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_dir_cleanup_log&#39;]</code>: log file path for the Spark
+executor log directories cleanup script.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_cores&#39;]</code>: the number of &quot;cores&quot; (threads) to allocate
+on each worker node.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_work_dir&#39;]</code>: the directory to store Spark
+executor logs and Spark job jars.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_memory_mb&#39;]</code>: the amount of memory in MB to allocate
+to each worker (i.e. the maximum total memory used by different applications&#39; executors running
+on a worker node).</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;default_executor_mem_mb&#39;]</code>: the default amount of memory
+to be allocated to a Spark application&#39;s executor on each node.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;log_dir&#39;]</code>: the log directory for Spark masters and workers.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;daemon_root_logger&#39;]</code>: the <code>spark.root.logger</code> property
+is set to this.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;max_num_open_files&#39;]</code>: the maximum number of open files to
+set using <code>ulimit</code> before launching a worker.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;java_debug_enabled&#39;]</code>: whether Java debugging options are
+to be enabled for Spark processes. Note: currently, this option is not working as intended.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;default_debug_port&#39;]</code>: default Java debug port to use.
+A free port is chosen if this port is unavailable.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;master_debug_port&#39;]</code>: default Java debug port to use for
+Spark masters. A free port is chosen if this port is unavailable.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_debug_port&#39;]</code>: default Java debug port to use for
+Spark workers. A free port is chosen if this port is unavailable.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;executor_debug_port&#39;]</code>: default Java debug port to use for
+Spark standalone executors. A free port is chosen if this port is unavailable.</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;common_extra_classpath_items&#39;]</code>: common classpath items to add to
+Spark application driver and executors (but not Spark master and worker processes).</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;conf&#39;][&#39;...&#39;]</code>: Spark configuration options that go into the default
+Spark configuration file. See <a href="https://spark.apache.org/docs/latest/configuration.html">https://spark.apache.org/docs/latest/configuration.html</a> for details.</li>
+</ul>
+
+<h2>Testing</h2>
+
+<h3>ChefSpec</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+<span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rspec'>rspec</span>
+</code></pre>
+
+<h3>Test Kitchen</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+<span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_kitchen'>kitchen</span> <span class='id identifier rubyid_test'>test</span>
+</code></pre>
+
+<h2>Contributing</h2>
+
+<p>If you would like to contribute this cookbook&#39;s development, please follow the steps below:</p>
+
+<ul>
+<li>Fork this repository on GitHub</li>
+<li>Make your changes</li>
+<li>Run tests</li>
+<li>Submit a pull request</li>
+</ul>
+
+<h2>License</h2>
+
+<p>Apache License 2.0</p>
+
+<p><a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a></p>
+
 
 
 <h1>Cookbook Documentation</h1>
@@ -414,18 +525,7 @@
 158
 159
 160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172</pre>
+161</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'recipes/spark-install.rb', line 1</span>
@@ -575,17 +675,6 @@
   <span class='id identifier rubyid_variables'>variables</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
 <span class='kw'>end</span>
 
-<span class='id identifier rubyid_common_extra_classpath_items'>common_extra_classpath_items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-<span class='comment'># common_extra_classpath_items = [
-</span><span class='comment'>#   node[&#39;hadoop&#39;][&#39;hive&#39;][&#39;mysql&#39;][&#39;connector_jar&#39;],
-</span><span class='comment'>#   node[&#39;hadoop&#39;][&#39;hive&#39;][&#39;conf_dir&#39;]
-</span><span class='comment'># ]
-</span>
-<span class='comment'># if common_extra_classpath_items.any?(&amp;:nil?)
-</span><span class='comment'>#   raise &quot;Some extra classpath items for Spark are not set: #{common_extra_classpath_items}&quot;
-</span><span class='comment'># end
-</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_override'>override</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>common_extra_classpath_items</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_common_extra_classpath_items'>common_extra_classpath_items</span>
-
 <span class='id identifier rubyid_local_dirs'>local_dirs</span> <span class='op'>||=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>local_dirs</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
 <span class='id identifier rubyid_common_extra_classpath_items'>common_extra_classpath_items</span> <span class='op'>||=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>common_extra_classpath_items</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
 <span class='id identifier rubyid_default_executor_mem_mb'>default_executor_mem_mb</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>standalone</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>default_executor_mem_mb</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -689,11 +778,39 @@
 1
 2
 3
-4</pre>
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'recipes/force-apt-update.rb', line 1</span>
 
+<span class='comment'># Copyright © 2015 ClearStory Data, Inc.
+</span><span class='comment'>#
+</span><span class='comment'># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+</span><span class='comment'># you may not use this file except in compliance with the License.
+</span><span class='comment'># You may obtain a copy of the License at
+</span><span class='comment'>#
+</span><span class='comment'>#     http://www.apache.org/licenses/LICENSE-2.0
+</span><span class='comment'>#
+</span><span class='comment'># Unless required by applicable law or agreed to in writing, software
+</span><span class='comment'># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+</span><span class='comment'># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><span class='comment'># See the License for the specific language governing permissions and
+</span><span class='comment'># limitations under the License.
+</span>
 <span class='id identifier rubyid_execute'>execute</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apt-get update</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_command'>command</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apt-get update</span><span class='tstring_end'>&quot;</span></span>
   <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:nothing</span>
@@ -773,11 +890,7 @@
 54
 55
 56
-57
-58
-59
-60
-61</pre>
+57</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'recipes/spark-standalone-master.rb', line 1</span>
@@ -798,10 +911,6 @@
 </span>
 <span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark::spark-install</span><span class='tstring_end'>&#39;</span></span>
 <span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit_wrapper</span><span class='tstring_end'>&#39;</span></span>
-
-<span class='comment'># Do these at compile time so we can query process status at compile time.
-</span><span class='id identifier rubyid_package'>package</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:install</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_service'>service</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:start</span><span class='rparen'>)</span>
 
 <span class='id identifier rubyid_master_runner_script'>master_runner_script</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>bin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>master_runner.sh</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 
@@ -831,18 +940,18 @@
 
 <span class='id identifier rubyid_monit_wrapper_service'>monit_wrapper_service</span> <span class='id identifier rubyid_service_name'>service_name</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:start</span>
-  <span class='id identifier rubyid_restart_action'>restart_action</span> <span class='op'>=</span> <span class='id identifier rubyid_monit_service_exists_and_running?'>monit_service_exists_and_running?</span><span class='lparen'>(</span><span class='id identifier rubyid_service_name'>service_name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:restart</span> <span class='op'>:</span> <span class='symbol'>:start</span>
-  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>package[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pkg_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
-  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit-wrapper_monitor[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
-  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_master_runner_script'>master_runner_script</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
-<span class='kw'>end</span>
 
-<span class='comment'># ddns_alias &#39;spark-master&#39; do
-</span><span class='comment'>#   dns_master (node[&#39;ddns&#39;] || {})[&#39;master&#39;]
-</span><span class='comment'>#   domain (node[&#39;ddns&#39;] || {})[&#39;domain&#39;]
-</span><span class='comment'>#   debug true
-</span><span class='comment'>#   only_if_configured true
-</span><span class='comment'># end</span></pre>
+  <span class='comment'># Determine the &quot;notification action&quot; based on whether the service is running at recipe compile
+</span>  <span class='comment'># time. This is important because if the service is not running when the Chef run starts, it will
+</span>  <span class='comment'># start as part of the :start action and pick up the new software version and configuration
+</span>  <span class='comment'># anyway, so we don&#39;t have to restart it as part of delayed notification.
+</span>  <span class='comment'># TODO: put this logic in a library method in monit_wrapper.
+</span>  <span class='id identifier rubyid_notification_action'>notification_action</span> <span class='op'>=</span> <span class='id identifier rubyid_monit_service_exists_and_running?'>monit_service_exists_and_running?</span><span class='lparen'>(</span><span class='id identifier rubyid_service_name'>service_name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:restart</span> <span class='op'>:</span> <span class='symbol'>:start</span>
+
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_notification_action'>notification_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit-wrapper_monitor[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_notification_action'>notification_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>package[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pkg_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_notification_action'>notification_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_master_runner_script'>master_runner_script</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -958,7 +1067,9 @@
 94
 95
 96
-97</pre>
+97
+98
+99</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'recipes/spark-standalone-worker.rb', line 1</span>
@@ -979,10 +1090,6 @@
 </span>
 <span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark::spark-install</span><span class='tstring_end'>&#39;</span></span>
 <span class='id identifier rubyid_include_recipe'>include_recipe</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit_wrapper</span><span class='tstring_end'>&#39;</span></span>
-
-<span class='comment'># Do these at compile time so we can query process status immediately.
-</span><span class='id identifier rubyid_package'>package</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:install</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_service'>service</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run_action'>run_action</span><span class='lparen'>(</span><span class='symbol'>:start</span><span class='rparen'>)</span>
 
 <span class='id identifier rubyid_worker_runner_script'>worker_runner_script</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>install_dir</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>worker_runner.sh</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 
@@ -1054,11 +1161,17 @@
 <span class='id identifier rubyid_monit_wrapper_service'>monit_wrapper_service</span> <span class='id identifier rubyid_service_name'>service_name</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:start</span>
   <span class='id identifier rubyid_wait_for_host_port'>wait_for_host_port</span> <span class='id identifier rubyid_master_host_port'>master_host_port</span>
-  <span class='id identifier rubyid_restart_action'>restart_action</span> <span class='op'>=</span> <span class='id identifier rubyid_monit_service_exists_and_running?'>monit_service_exists_and_running?</span><span class='lparen'>(</span><span class='id identifier rubyid_service_name'>service_name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:restart</span> <span class='op'>:</span> <span class='symbol'>:start</span>
-  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>package[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pkg_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
-  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit-wrapper_monitor[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
-  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit-wrapper_notify_if_not_running[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
-  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_restart_action'>restart_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_runner_script'>worker_runner_script</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+
+  <span class='comment'># Determine the &quot;notification action&quot; based on whether the service is running at recipe compile
+</span>  <span class='comment'># time. This is important because if the service is not running when the Chef run starts, it will
+</span>  <span class='comment'># start as part of the :start action and pick up the new software version and configuration
+</span>  <span class='comment'># anyway, so we don&#39;t have to restart it as part of delayed notification.
+</span>  <span class='comment'># TODO: put this logic in a library method in monit_wrapper.
+</span>  <span class='id identifier rubyid_notification_action'>notification_action</span> <span class='op'>=</span> <span class='id identifier rubyid_monit_service_exists_and_running?'>monit_service_exists_and_running?</span><span class='lparen'>(</span><span class='id identifier rubyid_service_name'>service_name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:restart</span> <span class='op'>:</span> <span class='symbol'>:start</span>
+
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_notification_action'>notification_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit-wrapper_monitor[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_service_name'>service_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_notification_action'>notification_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>package[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apache_spark</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pkg_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
+  <span class='id identifier rubyid_subscribes'>subscribes</span> <span class='id identifier rubyid_notification_action'>notification_action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_runner_script'>worker_runner_script</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:delayed</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1082,7 +1195,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Apr 20 19:25:28 2015 by
+  Generated on Tue Apr 21 15:44:50 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.1.5).
 </div>
