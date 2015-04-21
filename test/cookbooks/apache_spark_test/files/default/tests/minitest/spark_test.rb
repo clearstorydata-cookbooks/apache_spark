@@ -60,7 +60,8 @@ describe_recipe 'apache_spark::spark-install' do
     expected_msg = 'Pi is roughly 3.14'
     assert(
       spark_pi_result.stdout.include?(expected_msg),
-      "Expected stdout to say '#{expected_msg}'. Actual stdout:\n#{stdout}\n\nStderr:\n#{stderr}")
+      "Expected stdout to say '#{expected_msg}'. " \
+      "Actual stdout:\n#{spark_pi_result.stdout}\n\nStderr:\n#{spark_pi_result.stderr}")
   end
 
 end
