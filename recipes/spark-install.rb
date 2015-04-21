@@ -143,17 +143,6 @@ template "#{spark_conf_dir}/log4j.properties" do
   variables node['apache_spark']['standalone']
 end
 
-common_extra_classpath_items = []
-# common_extra_classpath_items = [
-#   node['hadoop']['hive']['mysql']['connector_jar'],
-#   node['hadoop']['hive']['conf_dir']
-# ]
-
-# if common_extra_classpath_items.any?(&:nil?)
-#   raise "Some extra classpath items for Spark are not set: #{common_extra_classpath_items}"
-# end
-node.override['apache_spark']['common_extra_classpath_items'] = common_extra_classpath_items
-
 local_dirs ||= node['apache_spark']['standalone']['local_dirs']
 common_extra_classpath_items ||= node['apache_spark']['standalone']['common_extra_classpath_items']
 default_executor_mem_mb = node['apache_spark']['standalone']['default_executor_mem_mb']
