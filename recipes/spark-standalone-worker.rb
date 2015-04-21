@@ -54,10 +54,10 @@ worker_dir_cleanup_log = node['apache_spark']['standalone']['worker_dir_cleanup_
 cron 'clean_spark_worker_dir' do
   minute 15
   hour 0
-  command '/usr/local/bin/clean_spark_worker_dir.rb ' +
-      "--worker_dir #{node['apache_spark']['standalone']['worker_work_dir']} " +
-      "--days_retained #{node['apache_spark']['standalone']['job_dir_days_retained']} " +
-      "--num_retained #{node['apache_spark']['standalone']['job_dir_num_retained']} " +
+  command '/usr/local/bin/clean_spark_worker_dir.rb ' \
+      "--worker_dir #{node['apache_spark']['standalone']['worker_work_dir']} " \
+      "--days_retained #{node['apache_spark']['standalone']['job_dir_days_retained']} " \
+      "--num_retained #{node['apache_spark']['standalone']['job_dir_num_retained']} " \
       "&>> #{worker_dir_cleanup_log}"
 end
 
