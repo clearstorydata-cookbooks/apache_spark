@@ -85,6 +85,9 @@ is supported. Future work:
   Spark application driver and executors (but not Spark master and worker processes).
 * `node['apache_spark']['conf']['...']`: Spark configuration options that go into the default
   Spark configuration file. See https://spark.apache.org/docs/latest/configuration.html for details.
+* `node['apache_spark']['standalone']['local_dirs']`: a list of local directories to use on workers.
+  This is where map output files are stored, so these directories should have enough space
+  available.
 
 ## Testing
 

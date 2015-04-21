@@ -82,3 +82,5 @@ default['apache_spark']['conf']['spark.akka.frameSize'] = 100
 # Uniformly spread the load across all Spark worker nodes.
 default['apache_spark']['conf']['spark.deploy.spreadOut'] = true
 default['apache_spark']['conf']['spark.executor.extraLibraryPath'] = '/usr/lib/hadoop/lib/native'
+
+default['apache_spark']['standalone']['local_dirs'] = ['/var/local/spark']
