@@ -15,7 +15,8 @@ This cookbook installs and configures Apache Spark. Currently, only the standalo
 is supported. Future work:
 
   * YARN and Mesos deployment modes
-  * installs
+  * Support more OS flavors (CentOS)
+  * Support installing from Cloudera and HDP Spark packages.
 
 ## Configuration
 
