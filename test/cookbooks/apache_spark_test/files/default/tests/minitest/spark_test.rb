@@ -20,7 +20,6 @@ require 'yaml'
 require_relative 'helpers'
 
 describe_recipe 'apache_spark::spark-install' do
-
   include Helpers::ApacheSparkTest
 
   it 'allows starting Spark standalone master' do
@@ -63,5 +62,4 @@ describe_recipe 'apache_spark::spark-install' do
       "Expected stdout to say '#{expected_msg}'. " \
       "Actual stdout:\n#{spark_pi_result.stdout}\n\nStderr:\n#{spark_pi_result.stderr}")
   end
-
 end
