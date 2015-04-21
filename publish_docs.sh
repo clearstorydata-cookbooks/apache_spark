@@ -7,9 +7,9 @@ rm -rf doc
 bundle exec yardoc
 mkdir -p build
 cd build
-rm -rf ./monit_wrapper
-git clone git@github.com:clearstorydata-cookbooks/monit_wrapper.git
-cd monit_wrapper
+rm -rf ./apache_spark
+git clone git@github.com:clearstorydata-cookbooks/apache_spark.git
+cd apache_spark
 git checkout gh-pages
 rm -rf ./*
 cp -R ../../doc/* .
