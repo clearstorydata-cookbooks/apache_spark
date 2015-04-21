@@ -64,14 +64,14 @@ default['apache_spark']['standalone']['default_executor_mem_mb'] = 256
 
 default['apache_spark']['standalone']['log_dir'] = '/var/log/spark-standalone'
 default['apache_spark']['standalone']['daemon_root_logger'] = 'INFO,DRFA'
-default['apache_spark']['standalone']['max_num_open_files'] = 65536
+default['apache_spark']['standalone']['max_num_open_files'] = '65536'
 
 # Java debugging for Spark
 default['apache_spark']['standalone']['java_debug_enabled'] = true
-default['apache_spark']['standalone']['default_debug_port'] = 23000
-default['apache_spark']['standalone']['master_debug_port'] = 23010
-default['apache_spark']['standalone']['worker_debug_port'] = 23020
-default['apache_spark']['standalone']['standalone_executor_debug_port'] = 23030
+default['apache_spark']['standalone']['default_debug_port'] = '23000'
+default['apache_spark']['standalone']['master_debug_port'] = '23010'
+default['apache_spark']['standalone']['worker_debug_port'] = '23020'
+default['apache_spark']['standalone']['standalone_executor_debug_port'] = '23030'
 
 # Extra classpath items for both driver and executor processesses of Spark apps.
 default['apache_spark']['common_extra_classpath_items'] = []
