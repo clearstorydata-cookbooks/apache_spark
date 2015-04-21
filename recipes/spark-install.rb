@@ -57,7 +57,7 @@ when 'tarball'
     to actual_install_dir
   end
 else
-  raise "Invalid Apache Spark installation mode: #{install_mode}. 'package' or 'tarball' required."
+  fail "Invalid Apache Spark installation mode: #{install_mode}. 'package' or 'tarball' required."
 end
 
 # set_default_using_dns(['apache_spark', 'standalone', 'master_host'], 'spark-master')
@@ -103,7 +103,7 @@ elsif node['apache_spark']['local_dir']
   local_dirs = Array(node['apache_spark']['local_dir'])
   local_dirs.each do |dir|
     # Discourage using comma-separated strings in Chef attributes
-    raise "Spark local directory names cannot include a comma: #{dir}" if dir.include?(',')
+    fail "Spark local directory names cannot include a comma: #{dir}" if dir.include?(',')
   end
 else
   local_dirs = ['/var/local/spark']
