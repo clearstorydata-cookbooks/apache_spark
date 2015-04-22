@@ -72,7 +72,7 @@ default['apache_spark']['standalone']['master_debug_port'] = '23010'
 default['apache_spark']['standalone']['worker_debug_port'] = '23020'
 default['apache_spark']['standalone']['executor_debug_port'] = '23030'
 
-# Extra classpath items for both driver and executor processesses of Spark apps.
+# Extra classpath items for both driver and executor processes of Spark apps.
 default['apache_spark']['standalone']['common_extra_classpath_items'] = []
 
 # Default configuration options for Spark.
