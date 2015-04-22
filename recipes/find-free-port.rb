@@ -1,4 +1,4 @@
-# Copyright © 2015 ClearStory Data, Inc.
+# Copyright 2015 ClearStory Data, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-template "/usr/local/bin/find-free-port.rb" do
-  source    "find-free-port.rb.erb"
-  mode      0755
-  owner     "root"
-  group     "root"
+template '/usr/local/bin/find-free-port.rb' do
+  source 'find-free-port.rb.erb'
+  mode 0755
+  owner 'root'
+  group 'root'
   variables ruby_interpreter: RbConfig.ruby
 end

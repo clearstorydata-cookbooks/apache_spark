@@ -1,4 +1,4 @@
-# Copyright © 2015 ClearStory Data, Inc.
+# Copyright 2015 ClearStory Data, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,6 @@ spark_group = node['apache_spark']['group']
 group spark_group
 
 user spark_user do
-  comment "Apache Spark Framework"
+  comment 'Apache Spark Framework'
   gid spark_group
 end

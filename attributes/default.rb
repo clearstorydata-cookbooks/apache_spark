@@ -1,4 +1,4 @@
-# Copyright © 2015 ClearStory Data, Inc.
+# Copyright 2015 ClearStory Data, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ default['apache_spark']['standalone']['master_bind_ip'] = 'localhost'
 default['apache_spark']['standalone']['master_host'] = 'localhost'
 
 default['apache_spark']['standalone']['master_port'] = 7077
-default['apache_spark']['standalone']['master_webui_port'] = 18080
+default['apache_spark']['standalone']['master_webui_port'] = '18080'
 
 default['apache_spark']['standalone']['worker_bind_ip'] = '0.0.0.0'
 default['apache_spark']['standalone']['worker_webui_port'] = 8081
@@ -64,14 +64,13 @@ default['apache_spark']['standalone']['default_executor_mem_mb'] = 256
 
 default['apache_spark']['standalone']['log_dir'] = '/var/log/spark-standalone'
 default['apache_spark']['standalone']['daemon_root_logger'] = 'INFO,DRFA'
-default['apache_spark']['standalone']['max_num_open_files'] = 65536
+default['apache_spark']['standalone']['max_num_open_files'] = '65536'
 
 # Java debugging for Spark
-default['apache_spark']['standalone']['java_debug_enabled'] = true
-default['apache_spark']['standalone']['default_debug_port'] = 23000
-default['apache_spark']['standalone']['master_debug_port'] = 23010
-default['apache_spark']['standalone']['worker_debug_port'] = 23020
-default['apache_spark']['standalone']['executor_debug_port'] = 23030
+default['apache_spark']['standalone']['default_debug_port'] = '23000'
+default['apache_spark']['standalone']['master_debug_port'] = '23010'
+default['apache_spark']['standalone']['worker_debug_port'] = '23020'
+default['apache_spark']['standalone']['executor_debug_port'] = '23030'
 
 # Extra classpath items for both driver and executor processesses of Spark apps.
 default['apache_spark']['standalone']['common_extra_classpath_items'] = []

@@ -1,4 +1,4 @@
-# Copyright © 2015 ClearStory Data, Inc.
+# Copyright 2015 ClearStory Data, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-execute "apt-get update" do
-  command "apt-get update"
+execute 'apt-get update' do
+  command 'apt-get update'
   action :nothing
 end.run_action(:run)
