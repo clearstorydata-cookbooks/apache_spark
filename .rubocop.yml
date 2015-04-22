@@ -11,3 +11,12 @@ AllCops:
 
 LineLength:
   Enabled: false
+
+Documentation:
+  Enabled: false
+
+FileName:
+  Enabled: false
+
+Next:
+  Enabled: false
