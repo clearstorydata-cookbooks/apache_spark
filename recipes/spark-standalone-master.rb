@@ -15,10 +15,6 @@
 include_recipe 'apache_spark::spark-install'
 include_recipe 'monit_wrapper'
 
-# Do these at compile time so we can query process status at compile time.
-package('monit').run_action(:install)
-service('monit').run_action(:start)
-
 master_runner_script = ::File.join(node['apache_spark']['install_dir'], 'bin', 'master_runner.sh')
 
 spark_user = node['apache_spark']['user']
@@ -47,15 +43,15 @@ end
 
 monit_wrapper_service service_name do
   action :start
-  restart_action = monit_service_exists_and_running?(service_name) ? :restart : :start
-  subscribes restart_action, "package[#{node['apache_spark']['pkg_name']}]", :delayed
-  subscribes restart_action, "monit-wrapper_monitor[#{service_name}]", :delayed
-  subscribes restart_action, "template[#{master_runner_script}]", :delayed
-end
 
-# ddns_alias 'spark-master' do
-#   dns_master (node['ddns'] || {})['master']
-#   domain (node['ddns'] || {})['domain']
-#   debug true
-#   only_if_configured true
-# end
+  # Determine the "notification action" based on whether the service is running at recipe compile
+  # time. This is important because if the service is not running when the Chef run starts, it will
+  # start as part of the :start action and pick up the new software version and configuration
+  # anyway, so we don't have to restart it as part of delayed notification.
+  # TODO: put this logic in a library method in monit_wrapper.
+  notification_action = monit_service_exists_and_running?(service_name) ? :restart : :start
+
+  subscribes notification_action, "monit-wrapper_monitor[#{service_name}]", :delayed
+  subscribes notification_action, "package[#{node['apache_spark']['pkg_name']}]", :delayed
+  subscribes notification_action, "template[#{master_runner_script}]", :delayed
+end

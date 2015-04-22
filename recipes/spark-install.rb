@@ -60,9 +60,6 @@ else
   fail "Invalid Apache Spark installation mode: #{install_mode}. 'package' or 'tarball' required."
 end
 
-# set_default_using_dns(['apache_spark', 'standalone', 'master_host'], 'spark-master')
-# set_default_using_dns(['apache_spark', 'standalone', 'master_bind_ip'], 'spark-master')
-
 unless Chef::Config[:solo]
   # Bind the worker to the real network interface. We are assuming that /etc/hosts or DNS
   # is set up so that this name resolves correctly.
@@ -143,19 +140,7 @@ template "#{spark_conf_dir}/log4j.properties" do
   variables node['apache_spark']['standalone']
 end
 
-common_extra_classpath_items = []
-# common_extra_classpath_items = [
-#   node['hadoop']['hive']['mysql']['connector_jar'],
-#   node['hadoop']['hive']['conf_dir']
-# ]
-
-# if common_extra_classpath_items.any?(&:nil?)
-#   raise "Some extra classpath items for Spark are not set: #{common_extra_classpath_items}"
-# end
-node.override['apache_spark']['common_extra_classpath_items'] = common_extra_classpath_items
-
-local_dirs ||= node['apache_spark']['standalone']['local_dirs']
-common_extra_classpath_items ||= node['apache_spark']['standalone']['common_extra_classpath_items']
+common_extra_classpath_items = node['apache_spark']['standalone']['common_extra_classpath_items']
 default_executor_mem_mb = node['apache_spark']['standalone']['default_executor_mem_mb']
 
 template "#{spark_conf_dir}/spark-defaults.conf" do

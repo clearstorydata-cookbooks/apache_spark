@@ -17,4 +17,5 @@ end
 
 group :documentation do
   gem 'yard', '~> 0.8'
+  gem 'yard-chef'
 end

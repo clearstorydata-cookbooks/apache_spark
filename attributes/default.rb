@@ -18,7 +18,8 @@ default['apache_spark']['install_mode'] = 'tarball'
 default['apache_spark']['download_url'] =
   'http://d3kbcqa49mib13.cloudfront.net/spark-1.2.1-bin-hadoop2.4.tgz'
 # The SHA256 checksum of the downloaded tarball.
-default['apache_spark']['checksum'] = '8e618cf67b3090acf87119a96e5e2e20e51f6266c44468844c185122b492b454'
+default['apache_spark']['checksum'] =
+  '8e618cf67b3090acf87119a96e5e2e20e51f6266c44468844c185122b492b454'
 
 # These options are used with the "package" installation mode.
 default['apache_spark']['pkg_name'] = 'spark'
@@ -29,8 +30,6 @@ default['apache_spark']['install_base_dir'] = '/opt/spark'
 default['apache_spark']['user'] = 'spark'
 default['apache_spark']['group'] = 'spark'
 
-default['apache_spark']['standalone']['master_host'] = nil
-
 # The IP address for Spark master to bind to. This should be set to an IP address or host name
 # accessible by the entire cluster.
 default['apache_spark']['standalone']['master_bind_ip'] = 'localhost'
@@ -39,14 +38,15 @@ default['apache_spark']['standalone']['master_bind_ip'] = 'localhost'
 default['apache_spark']['standalone']['master_host'] = 'localhost'
 
 default['apache_spark']['standalone']['master_port'] = 7077
-default['apache_spark']['standalone']['master_webui_port'] = 8080
+default['apache_spark']['standalone']['master_webui_port'] = 18080
 
 default['apache_spark']['standalone']['worker_bind_ip'] = '0.0.0.0'
 default['apache_spark']['standalone']['worker_webui_port'] = 8081
 
 default['apache_spark']['standalone']['job_dir_days_retained'] = 7
 default['apache_spark']['standalone']['job_dir_num_retained'] = 16
-default['apache_spark']['standalone']['worker_dir_cleanup_log'] = '/var/log/clean_spark_worker_dir.log'
+default['apache_spark']['standalone']['worker_dir_cleanup_log'] =
+  '/var/log/clean_spark_worker_dir.log'
 
 # Run this many worker threads per worker by default. If nil, the # of CPU cores (hyper-threads) on
 # the host.
@@ -67,18 +67,19 @@ default['apache_spark']['standalone']['daemon_root_logger'] = 'INFO,DRFA'
 default['apache_spark']['standalone']['max_num_open_files'] = '65536'
 
 # Java debugging for Spark
-default['apache_spark']['standalone']['java_debug_enabled'] = true
 default['apache_spark']['standalone']['default_debug_port'] = '23000'
 default['apache_spark']['standalone']['master_debug_port'] = '23010'
 default['apache_spark']['standalone']['worker_debug_port'] = '23020'
-default['apache_spark']['standalone']['standalone_executor_debug_port'] = '23030'
+default['apache_spark']['standalone']['executor_debug_port'] = '23030'
 
 # Extra classpath items for both driver and executor processesses of Spark apps.
-default['apache_spark']['common_extra_classpath_items'] = []
+default['apache_spark']['standalone']['common_extra_classpath_items'] = []
 
 # Default configuration options for Spark.
 default['apache_spark']['conf']['spark.akka.frameSize'] = 100
 
 # Uniformly spread the load across all Spark worker nodes.
 default['apache_spark']['conf']['spark.deploy.spreadOut'] = true
-default['apache_spark']['conf']['spark.executor.extraLibraryPath '] = '/usr/lib/hadoop/lib/native'
+default['apache_spark']['conf']['spark.executor.extraLibraryPath'] = '/usr/lib/hadoop/lib/native'
+
+default['apache_spark']['standalone']['local_dirs'] = ['/var/local/spark']

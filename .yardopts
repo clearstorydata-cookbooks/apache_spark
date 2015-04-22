@@ -1,0 +1,7 @@
+--no-private --protected --markup markdown --plugin chef \
+  attributes/**/*.rb \
+  libraries/**/*.rb \
+  providers/**/*.rb \
+  recipes/**/*.rb \
+  resources/**/*.rb \
+  metadata.rb

@@ -10,7 +10,7 @@ cd build
 rm -rf ./apache_spark
 git clone git@github.com:clearstorydata-cookbooks/apache_spark.git
 cd apache_spark
-if git branch | grep gh-pages; then
+if git branch -a | grep gh-pages; then
   git checkout gh-pages
 else
   git checkout -b gh-pages
