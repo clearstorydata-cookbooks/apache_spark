@@ -33,12 +33,13 @@ end
 # Run Spark standalone master with Monit
 service_name = 'spark-standalone-master'
 monit_wrapper_monitor service_name do
-  template_source "monit/#{service_name}.conf.erb"
-  template_cookbook 'apache_spark'
-  variables node['apache_spark']['standalone'].merge(
-    install_dir: node['apache_spark']['install_dir'],
-    master_runner_script: master_runner_script
-  )
+  template_source 'pattern-based_service.conf.erb'
+  template_cookbook 'monit_wrapper'
+  variables \
+    cmd_line_pattern: '^java.* (org\.apache\.)?spark\.deploy\.master\.Master ',
+    cmd_line: master_runner_script,
+    user: spark_user,
+    group: spark_group
 end
 
 monit_wrapper_service service_name do
