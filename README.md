@@ -15,8 +15,19 @@ This cookbook installs and configures Apache Spark. Currently, only the standalo
 is supported. Future work:
 
   * YARN and Mesos deployment modes
-  * Support more OS flavors (CentOS)
   * Support installing from Cloudera and HDP Spark packages.
+
+## Compatibility
+
+The following platforms are currently tested:
+
+* Ubuntu 12.04
+* CentOS 6.5
+
+The following platforms are not tested but will probably work (tests coming soon):
+
+* Fedora 21
+* Ubuntu 14.04
 
 ## Configuration
 
