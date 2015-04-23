@@ -1,6 +1,6 @@
 chef_gem 'waitutil'
 
-include_recipe 'apache_spark::force-apt-update'
+include_recipe 'apache_spark::force-package-index-update'
 include_recipe 'java'
 include_recipe 'hadoop'
 include_recipe 'hadoop::hadoop_hdfs_namenode'
