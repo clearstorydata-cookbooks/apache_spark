@@ -21,6 +21,7 @@ spark_group = node['apache_spark']['group']
 install_mode = node['apache_spark']['install_mode']
 
 spark_install_dir = node['apache_spark']['install_dir']
+spark_install_base_dir = node['apache_spark']['install_base_dir']
 spark_conf_dir = ::File.join(spark_install_dir, 'conf')
 
 case install_mode
@@ -55,6 +56,8 @@ when 'tarball'
 
   link spark_install_dir do
     to actual_install_dir
+    user spark_user
+    group spark_group
   end
 else
   fail "Invalid Apache Spark installation mode: #{install_mode}. 'package' or 'tarball' required."
@@ -89,7 +92,7 @@ end
 
 bash 'Change ownership of Spark installation directory' do
   user 'root'
-  code "chown -R spark:spark #{spark_install_dir}"
+  code "chown -R #{spark_user}:#{spark_group} #{spark_install_base_dir}"
 end
 
 template "#{spark_conf_dir}/log4j.properties" do
