@@ -40,11 +40,13 @@ export SPARK_MASTER_PORT=<%= @master_port %>
 export SPARK_MASTER_WEBUI_PORT=<%= @master_webui_port %>
 
 
-export SPARK_WORKER_OPTS
-<% if @worker_cores  %>
-export SPARK_WORKER_CORES=<%= @worker_cores %>
+<% if @worker_opts  %>
+export SPARK_WORKER_OPTS+=<%= @worker_opts %>
 <% end %>
-export SPARK_WORKER_DIR+=" -Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.appDataTtl=86400"
+
+<% if @worker_dir  %>
+export SPARK_WORKER_DIR=<%= @worker_dir %>
+<% end %>
 
 export SPARK_WORKER_MEMORY="<%= @worker_memory_mb %>m"
 export SPARK_WORKER_WEBUI_PORT=<%= @worker_webui_port %>
