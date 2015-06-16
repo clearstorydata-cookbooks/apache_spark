@@ -39,6 +39,13 @@ export SPARK_MASTER_IP=<%= @master_bind_ip %>
 export SPARK_MASTER_PORT=<%= @master_port %>
 export SPARK_MASTER_WEBUI_PORT=<%= @master_webui_port %>
 
+
+export SPARK_WORKER_OPTS
+<% if @worker_cores  %>
+export SPARK_WORKER_CORES=<%= @worker_cores %>
+<% end %>
+export SPARK_WORKER_DIR+=" -Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.appDataTtl=86400"
+
 export SPARK_WORKER_MEMORY="<%= @worker_memory_mb %>m"
 export SPARK_WORKER_WEBUI_PORT=<%= @worker_webui_port %>
 <% if @worker_cores  %>
