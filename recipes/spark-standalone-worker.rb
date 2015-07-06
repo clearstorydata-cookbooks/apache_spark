@@ -26,6 +26,7 @@ template worker_runner_script do
   owner spark_user
   group spark_group
   variables node['apache_spark']['standalone'].merge(
+    spark_user: spark_user,
     install_dir: node['apache_spark']['install_dir']
   )
 end
