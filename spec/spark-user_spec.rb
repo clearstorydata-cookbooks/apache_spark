@@ -14,9 +14,11 @@ describe 'apache_spark::spark-user' do
   end
 
   context 'with a defined uid of 1550' do
-    cached(:chef_run) { ChefSpec::SoloRunner.new do |node|
-      node.set['apache_spark']['uid'] = 1550
-    end.converge(described_recipe) }
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new do |node|
+        node.set['apache_spark']['uid'] = 1550
+      end.converge(described_recipe)
+    end
 
     it 'creates the user "spark" with uid 1550' do
       expect(chef_run).to create_user('spark').with(
