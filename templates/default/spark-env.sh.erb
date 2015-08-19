@@ -35,17 +35,20 @@
 # - SPARK_CLASSPATH, to add elements to Spark's classpath
 # - SPARK_LIBRARY_PATH, to add extra search paths for native libraries.
 
+<%
+require 'shellwords'
+%>
+
 export SPARK_MASTER_IP=<%= @master_bind_ip %>
 export SPARK_MASTER_PORT=<%= @master_port %>
 export SPARK_MASTER_WEBUI_PORT=<%= @master_webui_port %>
 
-
 <% if @worker_opts  %>
-export SPARK_WORKER_OPTS+=<%= @worker_opts %>
+export SPARK_WORKER_OPTS+=<%= @worker_opts.shellescape %>
 <% end %>
 
 <% if @worker_dir  %>
-export SPARK_WORKER_DIR=<%= @worker_dir %>
+export SPARK_WORKER_DIR=<%= @worker_dir.shellescape %>
 <% end %>
 
 export SPARK_WORKER_MEMORY="<%= @worker_memory_mb %>m"

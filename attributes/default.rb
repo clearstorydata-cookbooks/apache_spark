@@ -80,7 +80,7 @@ default['apache_spark']['standalone']['common_extra_classpath_items'] = []
 default['apache_spark']['standalone']['worker_dir'] = nil
 
 # Anything you'd like passed along, from https://spark.apache.org/docs/latest/spark-standalone.html#cluster-launch-scripts
-# E.G.: " -Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.appDataTtl=86400"
+# E.g.: " -Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.appDataTtl=86400"
 default['apache_spark']['standalone']['worker_opts'] = nil
 
 # Default configuration options for Spark.

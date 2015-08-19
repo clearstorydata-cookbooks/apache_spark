@@ -15,6 +15,8 @@
 include_recipe 'apache_spark::find-free-port'
 include_recipe 'apache_spark::spark-user'
 
+chef_gem 'shellwords'
+
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
 
