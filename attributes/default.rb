@@ -75,6 +75,14 @@ default['apache_spark']['standalone']['executor_debug_port'] = '23030'
 # Extra classpath items for both driver and executor processes of Spark apps.
 default['apache_spark']['standalone']['common_extra_classpath_items'] = []
 
+# By default, spark will use `SPARK_HOME/work` for scratch space. 
+# We can adjust `SPARK_WORKER_DIR` if we set this to a non nil value
+default['apache_spark']['standalone']['worker_dir'] = nil
+
+# Anything you'd like passed along, from https://spark.apache.org/docs/latest/spark-standalone.html#cluster-launch-scripts
+# E.G.: " -Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.appDataTtl=86400"
+default['apache_spark']['standalone']['worker_opts'] = nil
+
 # Default configuration options for Spark.
 default['apache_spark']['conf']['spark.akka.frameSize'] = 100
 
