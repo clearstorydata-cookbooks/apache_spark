@@ -180,6 +180,8 @@ Spark workers. A free port is chosen if this port is unavailable.</li>
 Spark standalone executors. A free port is chosen if this port is unavailable.</li>
 <li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;common_extra_classpath_items&#39;]</code>: common classpath items to
 add to Spark application driver and executors (but not Spark master and worker processes).</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_dir&#39;]</code>: Set to a non-nil value to tell the spark worker to use an alternate directory for spark scratch space</li>
+<li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;worker_opts&#39;]</code>: Set to a non-nil value to pass along any additional settings to the spark worker. E.G.: <code>-Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.appDataTtl=86400</code>.  Ideal for worker options only that you do not want in the default configuration file.</li>
 <li><code>node[&#39;apache_spark&#39;][&#39;conf&#39;][&#39;...&#39;]</code>: Spark configuration options that go into the default
 Spark configuration file. See <a href="https://spark.apache.org/docs/latest/configuration.html">https://spark.apache.org/docs/latest/configuration.html</a> for details.</li>
 <li><code>node[&#39;apache_spark&#39;][&#39;standalone&#39;][&#39;local_dirs&#39;]</code>: a list of local directories to use on workers.
@@ -235,7 +237,7 @@ available.</li>
     <tr class="r1">
       <td><span class='object_link'><a href="chef/apache_spark.html" title="chef::apache_spark (cookbook)">apache_spark</a></span></td>
       <td>A cookbook to install and configure Apache Spark</td>
-      <td>1.2.1</td>
+      <td>1.2.3</td>
     </tr>
     
   
@@ -246,7 +248,7 @@ available.</li>
 </div>
 
     <div id="footer">
-  Generated on Wed May 13 16:15:10 2015 by
+  Generated on Wed Aug 19 22:29:32 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.1.5).
 </div>
