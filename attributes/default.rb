@@ -75,7 +75,7 @@ default['apache_spark']['standalone']['executor_debug_port'] = '23030'
 # Extra classpath items for both driver and executor processes of Spark apps.
 default['apache_spark']['standalone']['common_extra_classpath_items'] = []
 
-# By default, spark will use `SPARK_HOME/work` for scratch space. 
+# By default, spark will use `SPARK_HOME/work` for scratch space.
 # We can adjust `SPARK_WORKER_DIR` if we set this to a non nil value
 default['apache_spark']['standalone']['worker_dir'] = nil
 
