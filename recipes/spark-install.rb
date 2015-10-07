@@ -71,7 +71,7 @@ local_dirs = node['apache_spark']['standalone']['local_dirs']
     spark_conf_dir,
     node['apache_spark']['standalone']['log_dir'],
     node['apache_spark']['standalone']['worker_work_dir']
-  ] + local_dirs
+  ] + local_dirs.to_a
 ).each do |dir|
   directory dir do
     mode 0755

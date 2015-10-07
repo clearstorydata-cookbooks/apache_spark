@@ -13,7 +13,7 @@
 # limitations under the License.
 ---
 driver:
-  name: vagrant
+  name: <%= ENV['KI_DRIVER'] || 'vagrant' %>
   customize:
     cpus: 2
     memory: 2048
@@ -24,6 +24,7 @@ provisioner:
 
 platforms:
   - name: ubuntu-12.04
+  - name: ubuntu-14.04
   - name: centos-6.5
     driver_config:
       box: opscode-centos-6.5
