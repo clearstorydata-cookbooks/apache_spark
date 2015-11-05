@@ -80,7 +80,7 @@ monit_wrapper_monitor service_name do
   template_cookbook 'monit_wrapper'
   wait_for_host_port master_host_port
   variables \
-    cmd_line_pattern: 'java.* org\.apache\.spark\.deploy\.worker\.Worker ',
+    cmd_line_pattern: node['apache_spark']['standalone']['worker_cmdline_pattern'],
     cmd_line: worker_runner_script,
     user: 'root',  # The worker needs to run as root initially to use ulimit.
     group: 'root'
