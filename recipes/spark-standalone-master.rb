@@ -36,7 +36,7 @@ monit_wrapper_monitor service_name do
   template_source 'pattern-based_service.conf.erb'
   template_cookbook 'monit_wrapper'
   variables \
-    cmd_line_pattern: '^java.* (org\.apache\.)?spark\.deploy\.master\.Master ',
+    cmd_line_pattern: '^(/\S+/)?java.* (org\.apache\.)?spark\.deploy\.master\.Master ',
     cmd_line: master_runner_script,
     user: spark_user,
     group: spark_group
