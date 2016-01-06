@@ -16,7 +16,7 @@
 
 ---
 driver:
-  name: ec2 
+  name: ec2
   instance_type: r3.large
   require_chef_omnibus: true
   security_group_ids: [<%= ENV['TEST_KITCHEN_AWS_SECURITY_GROUP_ID'] %>]
@@ -45,7 +45,7 @@ platforms:
   # TODO: find a CentOS AMI in the us-west-2 region
   # - name: centos-6.5
   #   driver_config:
-  #     image_id: 
+  #     image_id:
 
 suites:
   - name: testkitchen_apache_spark
