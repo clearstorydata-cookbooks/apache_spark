@@ -40,7 +40,7 @@ default['apache_spark']['standalone']['master_host'] = 'localhost'
 default['apache_spark']['standalone']['master_port'] = 7077
 default['apache_spark']['standalone']['master_webui_port'] = '18080'
 
-default['apache_spark']['standalone']['worker_bind_ip'] = '0.0.0.0'
+default['apache_spark']['standalone']['worker_bind_ip'] = nil
 default['apache_spark']['standalone']['worker_webui_port'] = 8081
 
 default['apache_spark']['standalone']['job_dir_days_retained'] = 7
