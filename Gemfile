@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'chef', '>= 11.18.6'
 gem 'berkshelf', '~> 4.0'
+gem 'berkshelf-api-client', '~> 2.0'
 gem 'stove', '~> 3.2'
 
 group :test do
