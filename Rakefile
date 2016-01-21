@@ -131,5 +131,5 @@ end
 def run_command(command)
   puts "Running command: #{command}"
   output = `#{command}`
-  raise "#{command} failed with:\n#{output}" unless $?.success?
+  raise "#{command} failed with:\n#{output}" unless $CHILD_STATUS.success?
 end
