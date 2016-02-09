@@ -19,5 +19,6 @@ group spark_group
 
 user spark_user do
   comment 'Apache Spark Framework'
+  uid node['apache_spark']['uid'] if node['apache_spark']['uid']
   gid spark_group
 end

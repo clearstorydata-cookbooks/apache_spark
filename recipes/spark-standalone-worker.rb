@@ -16,6 +16,7 @@ include_recipe 'apache_spark::spark-install'
 include_recipe 'monit_wrapper'
 
 worker_runner_script = ::File.join(node['apache_spark']['install_dir'], 'worker_runner.sh')
+worker_service_name = 'spark-standalone-worker'
 
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
@@ -26,7 +27,8 @@ template worker_runner_script do
   owner spark_user
   group spark_group
   variables node['apache_spark']['standalone'].merge(
-    install_dir: node['apache_spark']['install_dir']
+    install_dir: node['apache_spark']['install_dir'],
+    user: spark_user
   )
 end
 
@@ -67,25 +69,24 @@ logrotate_app 'worker-dir-cleanup-log' do
 end
 
 # Run Spark standalone worker with Monit
-service_name = 'spark-standalone-worker'
 master_host_port = format(
   '%s:%d',
   node['apache_spark']['standalone']['master_host'],
   node['apache_spark']['standalone']['master_port'].to_i
 )
 
-monit_wrapper_monitor service_name do
+monit_wrapper_monitor worker_service_name do
   template_source 'pattern-based_service.conf.erb'
   template_cookbook 'monit_wrapper'
   wait_for_host_port master_host_port
   variables \
-    cmd_line_pattern: 'java.* org\.apache\.spark\.deploy\.worker\.Worker ',
+    cmd_line_pattern: node['apache_spark']['standalone']['worker_cmdline_pattern'],
     cmd_line: worker_runner_script,
     user: 'root',  # The worker needs to run as root initially to use ulimit.
     group: 'root'
 end
 
-monit_wrapper_service service_name do
+monit_wrapper_service worker_service_name do
   action :start
   wait_for_host_port master_host_port
 
@@ -94,9 +95,9 @@ monit_wrapper_service service_name do
   # start as part of the :start action and pick up the new software version and configuration
   # anyway, so we don't have to restart it as part of delayed notification.
   # TODO: put this logic in a library method in monit_wrapper.
-  notification_action = monit_service_exists_and_running?(service_name) ? :restart : :start
+  notification_action = monit_service_exists_and_running?(worker_service_name) ? :restart : :start
 
-  subscribes notification_action, "monit-wrapper_monitor[#{service_name}]", :delayed
+  subscribes notification_action, "monit-wrapper_monitor[#{worker_service_name}]", :delayed
   subscribes notification_action, "package[#{node['apache_spark']['pkg_name']}]", :delayed
   subscribes notification_action, "template[#{worker_runner_script}]", :delayed
 end

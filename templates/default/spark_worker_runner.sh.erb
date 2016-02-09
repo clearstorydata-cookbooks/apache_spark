@@ -19,9 +19,11 @@ ulimit -n <%= @max_num_open_files %>
 export SPARK_DAEMON_JAVA_OPTS="-Dspark.root.logger=<%= @daemon_root_logger %> \
                                -Dspark.log.file=spark-standalone-worker.log"
 
-exec sudo -u spark <%= @install_dir %>/bin/spark-class \
+exec sudo -u <%= @user %> <%= @install_dir %>/bin/spark-class \
     org.apache.spark.deploy.worker.Worker \
+<% if @worker_bind_ip %>
     --ip <%= @worker_bind_ip %> \
+<% end %>
     --webui-port <%= @worker_webui_port %> \
     --work-dir <%= @worker_work_dir %> \
     --memory <%= @worker_memory_mb %>m \

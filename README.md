@@ -94,6 +94,8 @@ The following platforms are not tested but will probably work (tests coming soon
   Spark standalone executors. A free port is chosen if this port is unavailable.
 * `node['apache_spark']['standalone']['common_extra_classpath_items']`: common classpath items to
   add to Spark application driver and executors (but not Spark master and worker processes).
+* `node['apache_spark']['standalone']['worker_dir']`: Set to a non-nil value to tell the spark worker to use an alternate directory for spark scratch space
+* `node['apache_spark']['standalone']['worker_opts']`: Set to a non-nil value to pass along any additional settings to the spark worker. E.G.: `-Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.appDataTtl=86400`.  Ideal for worker options only that you do not want in the default configuration file.
 * `node['apache_spark']['conf']['...']`: Spark configuration options that go into the default
   Spark configuration file. See https://spark.apache.org/docs/latest/configuration.html for details.
 * `node['apache_spark']['standalone']['local_dirs']`: a list of local directories to use on workers.
