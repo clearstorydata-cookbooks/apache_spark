@@ -16,6 +16,7 @@ include_recipe 'apache_spark::spark-install'
 include_recipe 'monit_wrapper'
 
 worker_runner_script = ::File.join(node['apache_spark']['install_dir'], 'worker_runner.sh')
+worker_process_matcher = node['apache_spark']['standalone_worker']['monit']['process_matcher']
 worker_service_name = 'spark-standalone-worker'
 
 spark_user = node['apache_spark']['user']
@@ -64,7 +65,7 @@ logrotate_app 'worker-dir-cleanup-log' do
   cookbook 'logrotate'
   path worker_dir_cleanup_log
   frequency 'daily'
-  rotate 3  # keep this many logs
+  rotate 3 # keep this many logs
   create '0644 root root'
 end
 
@@ -80,9 +81,9 @@ monit_wrapper_monitor worker_service_name do
   template_cookbook 'monit_wrapper'
   wait_for_host_port master_host_port
   variables \
-    cmd_line_pattern: node['apache_spark']['standalone']['worker_cmdline_pattern'],
+    cmd_line_pattern: worker_process_matcher,
     cmd_line: worker_runner_script,
-    user: 'root',  # The worker needs to run as root initially to use ulimit.
+    user: 'root', # The worker needs to run as root initially to use ulimit.
     group: 'root'
 end
 

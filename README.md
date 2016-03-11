@@ -22,12 +22,12 @@ is supported. Future work:
 The following platforms are currently tested:
 
 * Ubuntu 12.04
+* Ubuntu 14.04
 * CentOS 6.5
 
 The following platforms are not tested but will probably work (tests coming soon):
 
 * Fedora 21
-* Ubuntu 14.04
 
 ## Configuration
 

@@ -16,6 +16,7 @@ include_recipe 'apache_spark::spark-install'
 include_recipe 'monit_wrapper'
 
 master_runner_script = ::File.join(node['apache_spark']['install_dir'], 'bin', 'master_runner.sh')
+master_process_matcher = node['apache_spark']['standalone_master']['monit']['process_matcher']
 master_service_name = 'spark-standalone-master'
 
 spark_user = node['apache_spark']['user']
@@ -36,7 +37,7 @@ monit_wrapper_monitor master_service_name do
   template_source 'pattern-based_service.conf.erb'
   template_cookbook 'monit_wrapper'
   variables \
-    cmd_line_pattern: node['apache_spark']['standalone']['master_cmdline_pattern'],
+    cmd_line_pattern: master_process_matcher,
     cmd_line: master_runner_script,
     user: spark_user,
     group: spark_group

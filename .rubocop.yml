@@ -7,6 +7,8 @@ AllCops:
     - Guardfile
   Exclude:
     - vendor/**/*
+    - '*.lock'
+    - '.rubocop.yml'
 
 Documentation:
   Enabled: false
@@ -19,6 +21,4 @@ Encoding:
 HashSyntax:
   Enabled: false
 LineLength:
-  Enabled: false
-ExtraSpacing:
   Enabled: false
