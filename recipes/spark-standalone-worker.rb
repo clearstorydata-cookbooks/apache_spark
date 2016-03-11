@@ -65,7 +65,7 @@ logrotate_app 'worker-dir-cleanup-log' do
   cookbook 'logrotate'
   path worker_dir_cleanup_log
   frequency 'daily'
-  rotate 3  # keep this many logs
+  rotate 3 # keep this many logs
   create '0644 root root'
 end
 
@@ -83,7 +83,7 @@ monit_wrapper_monitor worker_service_name do
   variables \
     cmd_line_pattern: worker_process_matcher,
     cmd_line: worker_runner_script,
-    user: 'root',  # The worker needs to run as root initially to use ulimit.
+    user: 'root', # The worker needs to run as root initially to use ulimit.
     group: 'root'
 end
 
