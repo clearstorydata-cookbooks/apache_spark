@@ -31,7 +31,7 @@ platforms:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box
 
 suites:
-  - name: testkitchen_apache_spark
+  - name: default
     run_list:
       - recipe[apache_spark_test::spark]
       - recipe[minitest-handler]

@@ -3,9 +3,38 @@
 #
 # Berkshelf
 #
-desc 'Install berkshelf cookbooks locally'
-task :berkshelf do
-  run_command('bundle exec berks install')
+namespace :berkshelf do
+  desc 'Update berkshelf cookbooks locally'
+  task update: :install
+  desc 'Install berkshelf cookbooks locally'
+  task :install do
+    if File.exist?('Berksfile.lock')
+      puts 'updating'
+      system('berks update')
+    else
+      puts 'installing'
+      system('berks install')
+    end
+  end
+
+  begin
+    desc 'Upload cookbook to configured chef server'
+    task :upload do
+      Rake::Task['berkshelf:install'].execute
+      system('berks upload')
+    end
+  end
+
+  begin
+    desc 'Apply version locks to [arg1] environment'
+    task :apply do
+      unless ENV.key?('env')
+        puts 'Must set env=<environment> on command line'
+        exit
+      end
+      system("berks apply #{ENV['env']}") || exit(1)
+    end
+  end
 end
 
 # Style tests. Rubocop and Foodcritic
@@ -85,7 +114,7 @@ desc 'Run all unit tests'
 task unit: ['unit:rspec']
 
 desc 'Run style and unit tests for light CI'
-task travis: %w(berkshelf style unit)
+task travis: %w(berkshelf:install style unit)
 
 desc 'Run all tests including test Kitchen with Vagrant'
 task default: ['unit', 'style', 'integration:vagrant']
