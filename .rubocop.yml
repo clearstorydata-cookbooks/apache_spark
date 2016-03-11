@@ -7,6 +7,8 @@ AllCops:
     - Guardfile
   Exclude:
     - vendor/**/*
+    - '*.lock'
+    - '.rubocop.yml'
 
 Documentation:
   Enabled: false
