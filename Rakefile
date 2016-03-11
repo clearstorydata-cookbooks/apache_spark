@@ -5,8 +5,7 @@
 #
 desc 'Install berkshelf cookbooks locally'
 task :berkshelf do
-  system('berks install')
-  system('berks update')
+  run_command('bundle exec berks install')
 end
 
 # Style tests. Rubocop and Foodcritic
@@ -130,6 +129,7 @@ def update_cookbook_version(version)
 end
 
 def run_command(command)
+  puts "Running command: #{command}"
   output = `#{command}`
   raise "#{command} failed with:\n#{output}" unless $CHILD_STATUS.success?
 end

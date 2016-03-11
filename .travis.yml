@@ -3,7 +3,5 @@ bundler_args: --without integration
 script:
   - bundle exec rake travis
 rvm:
-  - 2.0.0
-  - 2.1.4
-  - 2.1.5
-  - 2.2.0
+  - 2.1.7
+  - 2.2.4

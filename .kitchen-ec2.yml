@@ -11,27 +11,44 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+#<% require 'kitchen-sync' %>
+
 ---
 driver:
-  name: <%= ENV['KI_DRIVER'] || 'vagrant' %>
-  customize:
-    cpus: 2
-    memory: 2048
-    cpuexecutioncap: 75
+  name: ec2
+  instance_type: r3.large
+  require_chef_omnibus: true
+  security_group_ids: [<%= ENV['TEST_KITCHEN_AWS_SECURITY_GROUP_ID'] %>]
+  price: 0.03
+  tags:
+    created-by: test-kitchen
+    launched-by: <%= ENV['USER'] %>
+    purpose: cookbook-test
+    cookbook: apache_spark
+
+transport:
+  ssh_key: ~/.ssh/<%= ENV['AWS_SSH_KEY_ID'] %>.pem
+  connection_timeout: 10
+  conenction_retries: 5
 
 provisioner:
   name: chef_solo
 
 platforms:
-  - name: ubuntu-12.04
   - name: ubuntu-14.04
-  - name: centos-6.5
-    driver_config:
-      box: opscode-centos-6.5
-      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box
+    driver:
+      image_id: ami-c94856a8
+      region: us-west-2
+    transport:
+      username: ubuntu
+  # TODO: find a CentOS AMI in the us-west-2 region
+  # - name: centos-6.5
+  #   driver_config:
+  #     image_id:
 
 suites:
-  - name: default
+  - name: testkitchen_apache_spark
     run_list:
       - recipe[apache_spark_test::spark]
       - recipe[minitest-handler]
@@ -44,7 +61,8 @@ suites:
           fs.defaultFS: hdfs://localhost:54310
       sysctl: {}
       monit:
-        polling_frequency: 3  # for faster tests
+        config:
+          poll_freq: 3  # for faster tests
       minitest:
         recipes:
           - apache_spark_test::spark
