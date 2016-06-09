@@ -107,8 +107,16 @@ export MESOS_NATIVE_JAVA_LIBRARY=/usr/lib/libmesos.so
 if [ -z "${DEBUG_PORT:-}" ]; then
   for arg in "$@"; do
     case "${arg}" in
-      spark.deploy.master.Master) DEBUG_PORT=<%= @master_debug_port %>; break ;;
-      spark.deploy.worker.Worker) DEBUG_PORT=<%= @worker_debug_port %>; break ;;
+      spark.deploy.master.Master);;
+      org.apache.spark.deploy.master.Master)
+        DEBUG_PORT=<%= @master_debug_port %>;
+        break ;;
+
+      spark.deploy.worker.Worker);;
+      org.apache.spark.deploy.master.Worker)
+        DEBUG_PORT=<%= @worker_debug_port %>;
+        break ;;
+
       spark.executor.StandaloneExecutorBackend)
         DEBUG_PORT=<%= @executor_debug_port %>; break ;;
     esac
@@ -137,3 +145,35 @@ unset DEBUG_PORT FREE_DEBUG_PORT
 <% if node['apache_spark']['hadoop_conf_dir'] %>
 export HADOOP_CONF_DIR="<%= node['hadoop']['conf_dir'] %>"
 <% end %>
+
+<% if node['apache_spark']['standalone']['ha_recovery_mode'] == 'ZOOKEEPER' %>
+export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
+  -Dspark.deploy.recoveryMode=<%= node['apache_spark']['standalone']['ha_recovery_mode'] %> \
+  -Dspark.deploy.zookeeper.url=<%= node['apache_spark']['standalone']['ha_zookeeper_url'] %> \
+  -Dspark.deploy.zookeeper.dir=<%= node['apache_spark']['standalone']['ha_zookeeper_dir'] %>"
+<% end %>
+
+
+for arg in "$@"; do
+  case "${arg}" in
+    spark.deploy.master.Master);;
+    org.apache.spark.deploy.master.Master)
+<% if node['apache_spark']['standalone']['master_jmx_enabled'] %>
+export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
+  -Dcom.sun.management.jmxremote.port=<%= node['apache_spark']['standalone']['master_jmx_port'] %> \
+  -Dcom.sun.management.jmxremote.authenticate=false \
+  -Dcom.sun.management.jmxremote.ssl=false"
+<% end %>
+    break ;;
+    spark.deploy.worker.Worker);;
+    org.apache.spark.deploy.master.Worker)
+<% if node['apache_spark']['standalone']['worker_jmx_enabled'] %>
+export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
+  -Dcom.sun.management.jmxremote.port=<%= node['apache_spark']['standalone']['worker_jmx_port'] %> \
+  -Dcom.sun.management.jmxremote.authenticate=false \
+  -Dcom.sun.management.jmxremote.ssl=false"
+<% end %>
+    break ;;
+  esac
+done
+

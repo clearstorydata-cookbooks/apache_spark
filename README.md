@@ -101,6 +101,16 @@ The following platforms are not tested but will probably work (tests coming soon
 * `node['apache_spark']['standalone']['local_dirs']`: a list of local directories to use on workers.
   This is where map output files are stored, so these directories should have enough space
   available.
+* `node['apache_spark']['standalone']['ha_recovery_mode']`: This setting can be used to run spark master in HA mode.
+  More details in: http://spark.apache.org/docs/latest/spark-standalone.html#standby-masters-with-zookeeper
+* `node['apache_spark']['standalone']['ha_zookeeper_url']`: The ZooKeeper cluster url (e.g., 192.168.1.100:2181,192.168.1.101:2181).
+* `node['apache_spark']['standalone']['ha_zookeeper_dir']`: The directory in ZooKeeper to store recovery state
+* `node['apache_spark']['standalone']['master_url']`: For HA via zookeeper the spark url needs to point to more than one master hosts
+  If this is not defined it is derived from master_host and master_port
+* `node['apache_spark']['standalone']['worker_jmx_enabled']`: true|false, to enable or disable JMX for worker nodes
+* `node['apache_spark']['standalone']['worker_jmx_port']`: JMX port number for worker
+* `node['apache_spark']['standalone']['master_jmx_enabled']`: true|false, to enable or disable JMX for master nodes
+* `node['apache_spark']['standalone']['master_jmx_port']`: JMX port number for master
 
 ## Testing
 

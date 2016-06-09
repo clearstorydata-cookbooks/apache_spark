@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export SPARK_DAEMON_JAVA_OPTS="-Dspark.root.logger=<%= @daemon_root_logger %> \
+export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS -Dspark.root.logger=<%= @daemon_root_logger %> \
                                -Dspark.log.file=spark-standalone-master.log"
 
 exec <%= @install_dir %>/bin/spark-class \

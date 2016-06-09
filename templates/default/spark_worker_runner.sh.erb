@@ -16,7 +16,7 @@
 
 ulimit -n <%= @max_num_open_files %>
 
-export SPARK_DAEMON_JAVA_OPTS="-Dspark.root.logger=<%= @daemon_root_logger %> \
+export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS -Dspark.root.logger=<%= @daemon_root_logger %> \
                                -Dspark.log.file=spark-standalone-worker.log"
 
 exec sudo -u <%= @user %> <%= @install_dir %>/bin/spark-class \
@@ -27,6 +27,6 @@ exec sudo -u <%= @user %> <%= @install_dir %>/bin/spark-class \
     --webui-port <%= @worker_webui_port %> \
     --work-dir <%= @worker_work_dir %> \
     --memory <%= @worker_memory_mb %>m \
-    spark://<%= @master_host %>:<%= @master_port %> \
+    <%= @spark_master_url %> \
     1><%= @log_dir %>/worker.out \
     2><%= @log_dir %>/worker.err
