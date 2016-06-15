@@ -161,8 +161,8 @@ for arg in "$@"; do
 <% if node['apache_spark']['standalone']['master_jmx_enabled'] %>
 export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
   -Dcom.sun.management.jmxremote.port=<%= node['apache_spark']['standalone']['master_jmx_port'] %> \
-  -Dcom.sun.management.jmxremote.authenticate=false \
-  -Dcom.sun.management.jmxremote.ssl=false"
+  -Dcom.sun.management.jmxremote.authenticate=<%= node['apache_spark']['standalone']['master_jmx_authenticate'] %> \
+  -Dcom.sun.management.jmxremote.ssl=<%= node['apache_spark']['standalone']['master_jmx_ssl'] %>"
 <% end %>
     break ;;
     spark.deploy.worker.Worker);;
@@ -170,8 +170,8 @@ export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
 <% if node['apache_spark']['standalone']['worker_jmx_enabled'] %>
 export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
   -Dcom.sun.management.jmxremote.port=<%= node['apache_spark']['standalone']['worker_jmx_port'] %> \
-  -Dcom.sun.management.jmxremote.authenticate=false \
-  -Dcom.sun.management.jmxremote.ssl=false"
+  -Dcom.sun.management.jmxremote.authenticate=<%= node['apache_spark']['standalone']['worker_jmx_authenticate'] %>\
+  -Dcom.sun.management.jmxremote.ssl=<%= node['apache_spark']['standalone']['worker_jmx_ssl'] %>"
 <% end %>
     break ;;
   esac

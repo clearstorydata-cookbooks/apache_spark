@@ -109,8 +109,12 @@ The following platforms are not tested but will probably work (tests coming soon
   If this is not defined it is derived from master_host and master_port
 * `node['apache_spark']['standalone']['worker_jmx_enabled']`: true|false, to enable or disable JMX for worker nodes
 * `node['apache_spark']['standalone']['worker_jmx_port']`: JMX port number for worker
+* `node['apache_spark']['standalone']['worker_jmx_authenticate']`: Whether JMX requires authentication or not for worker
+* `node['apache_spark']['standalone']['worker_jmx_ssl']`: Whether JMX requires SSL or not for worker
 * `node['apache_spark']['standalone']['master_jmx_enabled']`: true|false, to enable or disable JMX for master nodes
 * `node['apache_spark']['standalone']['master_jmx_port']`: JMX port number for master
+* `node['apache_spark']['standalone']['master_jmx_authenticate']`: Whether JMX requires authentication or not for master
+* `node['apache_spark']['standalone']['master_jmx_ssl']`: Whether JMX requires SSL or not for master
 
 ## Testing
 

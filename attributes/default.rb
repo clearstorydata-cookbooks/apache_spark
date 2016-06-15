@@ -46,6 +46,8 @@ default['apache_spark']['standalone']['master_url'] = nil
 # Enable JMX in master
 default['apache_spark']['standalone']['master_jmx_enabled'] = false
 default['apache_spark']['standalone']['master_jmx_port'] = 9999
+default['apache_spark']['standalone']['master_jmx_authenticate'] = false
+default['apache_spark']['standalone']['master_jmx_ssl'] = false
 
 # HA configuration for spark master
 default['apache_spark']['standalone']['ha_recovery_mode'] = 'NONE'
@@ -58,6 +60,8 @@ default['apache_spark']['standalone']['worker_webui_port'] = 8081
 # Enable JMX in workers
 default['apache_spark']['standalone']['worker_jmx_enabled'] = false
 default['apache_spark']['standalone']['worker_jmx_port'] = 9998
+default['apache_spark']['standalone']['worker_jmx_authenticate'] = false
+default['apache_spark']['standalone']['worker_jmx_ssl'] = false
 
 default['apache_spark']['standalone']['job_dir_days_retained'] = 7
 default['apache_spark']['standalone']['job_dir_num_retained'] = 16
