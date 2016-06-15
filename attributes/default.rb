@@ -34,14 +34,34 @@ default['apache_spark']['group'] = 'spark'
 # accessible by the entire cluster.
 default['apache_spark']['standalone']['master_bind_ip'] = 'localhost'
 
-# This is the host clients will try to connect to.
+# This is the host spark master would bind to
 default['apache_spark']['standalone']['master_host'] = 'localhost'
-
 default['apache_spark']['standalone']['master_port'] = 7077
 default['apache_spark']['standalone']['master_webui_port'] = '18080'
 
+# For HA via zookeeper the spark url needs to point to more than one master hosts
+# If the following is not defined it is derived from master_host and master_port
+default['apache_spark']['standalone']['master_url'] = nil
+
+# Enable JMX in master
+default['apache_spark']['standalone']['master_jmx_enabled'] = false
+default['apache_spark']['standalone']['master_jmx_port'] = 9999
+default['apache_spark']['standalone']['master_jmx_authenticate'] = false
+default['apache_spark']['standalone']['master_jmx_ssl'] = false
+
+# HA configuration for spark master
+default['apache_spark']['standalone']['ha_recovery_mode'] = 'NONE'
+default['apache_spark']['standalone']['ha_zookeeper_url'] = nil
+default['apache_spark']['standalone']['ha_zookeeper_dir'] = nil
+
 default['apache_spark']['standalone']['worker_bind_ip'] = nil
 default['apache_spark']['standalone']['worker_webui_port'] = 8081
+
+# Enable JMX in workers
+default['apache_spark']['standalone']['worker_jmx_enabled'] = false
+default['apache_spark']['standalone']['worker_jmx_port'] = 9998
+default['apache_spark']['standalone']['worker_jmx_authenticate'] = false
+default['apache_spark']['standalone']['worker_jmx_ssl'] = false
 
 default['apache_spark']['standalone']['job_dir_days_retained'] = 7
 default['apache_spark']['standalone']['job_dir_num_retained'] = 16

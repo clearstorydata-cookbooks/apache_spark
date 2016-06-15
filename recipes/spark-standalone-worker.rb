@@ -15,11 +15,17 @@
 include_recipe 'apache_spark::spark-install'
 include_recipe 'monit_wrapper'
 
-worker_runner_script = ::File.join(node['apache_spark']['install_dir'], 'worker_runner.sh')
+worker_runner_script = ::File.join(node['apache_spark']['install_dir'], 'bin', 'worker_runner.sh')
 worker_service_name = 'spark-standalone-worker'
 
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
+
+if node['apache_spark']['standalone']['master_url'].nil?
+  spark_master_url = "spark://#{node['apache_spark']['standalone']['master_host']}:#{node['apache_spark']['standalone']['master_port']}"
+else
+  spark_master_url = node['apache_spark']['standalone']['master_url']
+end
 
 template worker_runner_script do
   source 'spark_worker_runner.sh.erb'
@@ -27,6 +33,7 @@ template worker_runner_script do
   owner spark_user
   group spark_group
   variables node['apache_spark']['standalone'].merge(
+    spark_master_url: spark_master_url,
     install_dir: node['apache_spark']['install_dir'],
     user: spark_user
   )
@@ -78,7 +85,6 @@ master_host_port = format(
 monit_wrapper_monitor worker_service_name do
   template_source 'pattern-based_service.conf.erb'
   template_cookbook 'monit_wrapper'
-  wait_for_host_port master_host_port
   variables \
     cmd_line_pattern: node['apache_spark']['standalone']['worker_cmdline_pattern'],
     cmd_line: worker_runner_script,
