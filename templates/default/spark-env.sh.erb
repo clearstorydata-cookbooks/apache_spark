@@ -166,7 +166,7 @@ export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
 <% end %>
     break ;;
     spark.deploy.worker.Worker);;
-    org.apache.spark.deploy.master.Worker)
+    org.apache.spark.deploy.worker.Worker)
 <% if node['apache_spark']['standalone']['worker_jmx_enabled'] %>
 export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
   -Dcom.sun.management.jmxremote.port=<%= node['apache_spark']['standalone']['worker_jmx_port'] %> \
