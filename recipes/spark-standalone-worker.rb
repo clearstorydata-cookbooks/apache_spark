@@ -68,7 +68,6 @@ end
 
 # logrotate for the log cleanup script
 logrotate_app 'worker-dir-cleanup-log' do
-  cookbook 'logrotate'
   path worker_dir_cleanup_log
   frequency 'daily'
   rotate 3  # keep this many logs
