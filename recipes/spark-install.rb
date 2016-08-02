@@ -38,7 +38,7 @@ when 'tarball'
   tarball_basename = ::File.basename(URI.parse(node['apache_spark']['download_url']).path)
   downloaded_tarball_path = ::File.join(Chef::Config[:file_cache_path], tarball_basename)
   tarball_url = node['apache_spark']['download_url']
-  Chef::Log.warn("#{tarball_url} will be downloaded to #{downloaded_tarball_path}")
+
   remote_file downloaded_tarball_path do
     source tarball_url
     checksum node['apache_spark']['checksum']
@@ -46,7 +46,6 @@ when 'tarball'
 
   extracted_dir_name = tarball_basename.sub(/[.](tar[.]gz|tgz)$/, '')
 
-  Chef::Log.warn("#{downloaded_tarball_path} will be extracted in #{install_base_dir}")
   actual_install_dir = ::File.join(install_base_dir, extracted_dir_name)
   tar_extract downloaded_tarball_path do
     action :extract_local
