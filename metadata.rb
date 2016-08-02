@@ -21,7 +21,13 @@ version '1.2.14'
 source_url 'https://github.com/clearstorydata-cookbooks/apache_spark'
 issues_url 'https://github.com/clearstorydata-cookbooks/apache_spark/issues'
 
-%w( debian ubuntu centos redhat fedora ).each do |os|
+%w(
+  centos
+  debian
+  fedora
+  redhat
+  ubuntu
+).each do |os|
   supports os
 end
 
