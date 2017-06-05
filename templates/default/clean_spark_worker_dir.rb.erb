@@ -73,7 +73,7 @@ days_retained = options[:days_retained]
 raise "Number of job directories to retain is not specified" unless options[:num_retained]
 num_retained = options[:num_retained]
 
-JOB_DIR_RE = /^app-(\d{14})-\d{4}$/
+JOB_DIR_RE = /^app-(\d{14})-\d{4,}$/
 
 # Remove timezone for calculating difference with parsed date/time
 now = DateTime.now
