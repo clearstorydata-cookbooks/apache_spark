@@ -21,11 +21,11 @@ worker_service_name = 'spark-standalone-worker'
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
 
-if node['apache_spark']['standalone']['master_url'].nil?
-  spark_master_url = "spark://#{node['apache_spark']['standalone']['master_host']}:#{node['apache_spark']['standalone']['master_port']}"
-else
-  spark_master_url = node['apache_spark']['standalone']['master_url']
-end
+spark_master_url = if node['apache_spark']['standalone']['master_url'].nil?
+                     "spark://#{node['apache_spark']['standalone']['master_host']}:#{node['apache_spark']['standalone']['master_port']}"
+                   else
+                     node['apache_spark']['standalone']['master_url']
+                   end
 
 template worker_runner_script do
   source 'spark_worker_runner.sh.erb'

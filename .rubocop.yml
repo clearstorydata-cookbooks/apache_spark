@@ -8,17 +8,17 @@ AllCops:
   Exclude:
     - vendor/**/*
 
-Documentation:
+Metrics/LineLength:
   Enabled: false
-FileName:
+Style/Documentation:
   Enabled: false
-SignalException:
+Style/ExtraSpacing:
   Enabled: false
-Encoding:
+Style/FileName:
   Enabled: false
-HashSyntax:
+Style/HashSyntax:
   Enabled: false
-LineLength:
-  Enabled: false
-ExtraSpacing:
+Style/NumericLiteralPrefix:
+  EnforcedOctalStyle: zero_only
+Style/SignalException:
   Enabled: false

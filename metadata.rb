@@ -18,10 +18,17 @@ maintainer_email 'mbautin@clearstorydata.com'
 license 'Apache License 2.0'
 description 'A cookbook to install and configure Apache Spark'
 version '1.2.14'
-source_url 'https://github.com/clearstorydata-cookbooks/apache_spark'
-issues_url 'https://github.com/clearstorydata-cookbooks/apache_spark/issues'
 
-%w( debian ubuntu centos redhat fedora ).each do |os|
+source_url 'https://github.com/clearstorydata-cookbooks/apache_spark' if respond_to?(:source_url)
+issues_url 'https://github.com/clearstorydata-cookbooks/apache_spark/issues' if respond_to?(:issues_url)
+
+%w(
+  centos
+  debian
+  fedora
+  redhat
+  ubuntu
+).each do |os|
   supports os
 end
 
