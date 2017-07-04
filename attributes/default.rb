@@ -115,4 +115,4 @@ default['apache_spark']['standalone']['local_dirs'] = ['/var/local/spark']
 default['apache_spark']['standalone']['master_cmdline_pattern'] =
   '^(/\S+/)?java .* org[.]apache[.]spark[.]deploy[.]master[.]Master '
 default['apache_spark']['standalone']['worker_cmdline_pattern'] =
-  '^(/\S+/)?java .* org[.]apache[.]spark[.]deploy[.]worker[.]Worker '
+  '.*spark-class .* org[.]apache[.]spark[.]deploy[.]worker[.]Worker '
