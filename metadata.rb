@@ -25,8 +25,8 @@ issues_url 'https://github.com/clearstorydata-cookbooks/apache_spark/issues'
   supports os
 end
 
-depends 'apt', '~> 2.0'
-depends 'java', '~> 1.0'
-depends 'logrotate', '~> 2.1'
-depends 'monit_wrapper', '~> 3.0'
+depends 'apt'
+depends 'java'
+depends 'logrotate'
+depends 'monit_wrapper'
 depends 'tar'
