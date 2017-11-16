@@ -16,17 +16,17 @@ describe 'apache_spark' do
   end
 
   # Spark master port
-  describe port(7077) do
+  describe port(7_077) do
     it { should be_listening }
   end
 
   # Spark master WebUI port
-  describe port('8081') do
+  describe port(8_081) do
     it { should be_listening }
   end
 
   # Spark worker WebUI port
-  describe port('18080') do
+  describe port(18_080) do
     it { should be_listening }
   end
 

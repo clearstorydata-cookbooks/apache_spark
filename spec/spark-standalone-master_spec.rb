@@ -7,7 +7,7 @@ describe 'apache_spark::spark-standalone-master' do
     it 'adds the master runner script' do
       expect(chef_run).to create_template('/usr/share/spark/bin/master_runner.sh').with(
         source: 'spark_master_runner.sh.erb',
-        mode: 0744,
+        mode: '0744',
         owner: 'spark',
         group: 'spark'
       )

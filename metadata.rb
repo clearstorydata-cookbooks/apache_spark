@@ -18,10 +18,9 @@ maintainer_email 'mbautin@clearstorydata.com'
 license 'Apache License 2.0'
 description 'A cookbook to install and configure Apache Spark'
 version '1.2.14'
-source_url 'https://github.com/clearstorydata-cookbooks/apache_spark'
-issues_url 'https://github.com/clearstorydata-cookbooks/apache_spark/issues'
+chef_version '>= 11.18.6'
 
-%w( debian ubuntu centos redhat fedora ).each do |os|
+%w(debian ubuntu centos redhat fedora).each do |os|
   supports os
 end
 
@@ -30,3 +29,6 @@ depends 'java'
 depends 'logrotate'
 depends 'monit_wrapper'
 depends 'tar'
+
+source_url 'https://github.com/clearstorydata-cookbooks/apache_spark'
+issues_url 'https://github.com/clearstorydata-cookbooks/apache_spark/issues'
