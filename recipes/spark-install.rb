@@ -74,7 +74,7 @@ local_dirs = node['apache_spark']['standalone']['local_dirs']
   ] + local_dirs.to_a
 ).each do |dir|
   directory dir do
-    mode 0755
+    mode '0755'
     owner spark_user
     group spark_group
     action :create
@@ -84,7 +84,7 @@ end
 
 template "#{spark_conf_dir}/spark-env.sh" do
   source 'spark-env.sh.erb'
-  mode 0644
+  mode '0644'
   owner spark_user
   group spark_group
   variables node['apache_spark']['standalone']
@@ -97,7 +97,7 @@ end
 
 template "#{spark_conf_dir}/log4j.properties" do
   source 'spark_log4j.properties.erb'
-  mode 0644
+  mode '0644'
   owner spark_user
   group spark_group
   variables node['apache_spark']['standalone']
@@ -110,7 +110,7 @@ default_executor_mem_mb = node['apache_spark']['standalone']['default_executor_m
 
 template "#{spark_conf_dir}/spark-defaults.conf" do
   source 'spark-defaults.conf.erb'
-  mode 0644
+  mode '0644'
   owner spark_user
   group spark_group
   variables options: node['apache_spark']['conf'].to_hash.merge(

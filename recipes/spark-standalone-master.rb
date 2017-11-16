@@ -23,7 +23,7 @@ spark_group = node['apache_spark']['group']
 
 template master_runner_script do
   source 'spark_master_runner.sh.erb'
-  mode 0744
+  mode '0744'
   owner spark_user
   group spark_group
   variables node['apache_spark']['standalone'].merge(

@@ -26,20 +26,32 @@ describe_recipe 'apache_spark::spark-install' do
     stop_spark
 
     start_monit_service('spark-standalone-master')
-    assert_equal('Running', get_stable_monit_service_status('spark-standalone-master'))
+    assert_equal(
+      'Running',
+      get_stable_monit_service_status('spark-standalone-master')
+    )
 
     # The worker should still be down.
-    assert_equal('Not monitored', get_stable_monit_service_status('spark-standalone-worker'))
+    assert_equal(
+      'Not monitored',
+      get_stable_monit_service_status('spark-standalone-worker')
+    )
   end
 
   it 'allows starting Spark standalone worker' do
     stop_spark
 
     start_monit_service('spark-standalone-worker')
-    assert_equal('Running', get_stable_monit_service_status('spark-standalone-worker'))
+    assert_equal(
+      'Running',
+      get_stable_monit_service_status('spark-standalone-worker')
+    )
 
     # The master should still be down.
-    assert_equal('Not monitored', get_stable_monit_service_status('spark-standalone-master'))
+    assert_equal(
+      'Not monitored',
+      get_stable_monit_service_status('spark-standalone-master')
+    )
   end
 
   it 'allows to run a Spark program (SparkPi)' do
@@ -63,6 +75,7 @@ describe_recipe 'apache_spark::spark-install' do
     assert(
       spark_pi_result.stdout.include?(expected_msg),
       "Expected stdout to say '#{expected_msg}'. " \
-      "Actual stdout:\n#{spark_pi_result.stdout}\n\nStderr:\n#{spark_pi_result.stderr}")
+      "Actual stdout:\n#{spark_pi_result.stdout}\n\nStderr:\n#{spark_pi_result.stderr}"
+    )
   end
 end

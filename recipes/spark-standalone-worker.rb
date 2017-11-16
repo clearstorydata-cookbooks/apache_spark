@@ -29,7 +29,7 @@ end
 
 template worker_runner_script do
   source 'spark_worker_runner.sh.erb'
-  mode 0744
+  mode '0744'
   owner spark_user
   group spark_group
   variables node['apache_spark']['standalone'].merge(
@@ -40,7 +40,7 @@ template worker_runner_script do
 end
 
 directory node['apache_spark']['standalone']['worker_work_dir'] do
-  mode 0755
+  mode '0755'
   owner spark_user
   group spark_group
   action :create
@@ -49,7 +49,7 @@ end
 
 template '/usr/local/bin/clean_spark_worker_dir.rb' do
   source 'clean_spark_worker_dir.rb.erb'
-  mode 0755
+  mode '0755'
   owner 'root'
   group 'root'
   variables ruby_interpreter: RbConfig.ruby
