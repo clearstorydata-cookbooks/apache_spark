@@ -13,10 +13,6 @@
 # limitations under the License.
 
 include_recipe 'apache_spark::spark-install'
-include_recipe 'monit_wrapper'
-
-worker_runner_script = ::File.join(node['apache_spark']['install_dir'], 'bin', 'worker_runner.sh')
-worker_service_name = 'spark-standalone-worker'
 
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
@@ -25,18 +21,6 @@ if node['apache_spark']['standalone']['master_url'].nil?
   spark_master_url = "spark://#{node['apache_spark']['standalone']['master_host']}:#{node['apache_spark']['standalone']['master_port']}"
 else
   spark_master_url = node['apache_spark']['standalone']['master_url']
-end
-
-template worker_runner_script do
-  source 'spark_worker_runner.sh.erb'
-  mode 0744
-  owner spark_user
-  group spark_group
-  variables node['apache_spark']['standalone'].merge(
-    spark_master_url: spark_master_url,
-    install_dir: node['apache_spark']['install_dir'],
-    user: spark_user
-  )
 end
 
 directory node['apache_spark']['standalone']['worker_work_dir'] do
@@ -75,35 +59,50 @@ logrotate_app 'worker-dir-cleanup-log' do
   create '0644 root root'
 end
 
-# Run Spark standalone worker with Monit
-master_host_port = format(
-  '%s:%d',
-  node['apache_spark']['standalone']['master_host'],
-  node['apache_spark']['standalone']['master_port'].to_i
-)
+spark_user = node['apache_spark']['user']
+spark_group = node['apache_spark']['group']
+service_name = 'spark-standalone-worker'
 
-monit_wrapper_monitor worker_service_name do
-  template_source 'pattern-based_service.conf.erb'
-  template_cookbook 'monit_wrapper'
-  variables \
-    cmd_line_pattern: node['apache_spark']['standalone']['worker_cmdline_pattern'],
-    cmd_line: worker_runner_script,
-    user: 'root',  # The worker needs to run as root initially to use ulimit.
-    group: 'root'
+worker_work_dir = node['apache_spark']['standalone']['worker_work_dir']
+worker_webui_port = node['apache_spark']['standalone']['worker_webui_port']
+worker_memory_mb = node['apache_spark']['standalone']['worker_memory_mb']
+limit_of_file = node['apache_spark']['standalone']['max_num_open_files']
+install_dir = node['apache_spark']['install_dir']
+worker_bind_ip = node['apache_spark']['standalone']['worker_bind_ip']
+
+exec = "#{install_dir}/bin/spark-class org.apache.spark.deploy.worker.Worker --webui-port #{worker_webui_port} --work-dir #{worker_work_dir} --memory #{worker_memory_mb}m #{spark_master_url}"
+
+if worker_bind_ip
+  exec = exec + "--ip #{worker_bind_ip}"
 end
 
-monit_wrapper_service worker_service_name do
-  action :start
-  wait_for_host_port master_host_port
+systemd_service_description =
+    "[Unit]
+    Description=#{service_name}
+    After=#{service_name}.service
 
-  # Determine the "notification action" based on whether the service is running at recipe compile
-  # time. This is important because if the service is not running when the Chef run starts, it will
-  # start as part of the :start action and pick up the new software version and configuration
-  # anyway, so we don't have to restart it as part of delayed notification.
-  # TODO: put this logic in a library method in monit_wrapper.
-  notification_action = monit_service_exists_and_running?(worker_service_name) ? :restart : :start
+[Service]
+    Type=simple
+    LimitNOFILE=#{limit_of_file}
+    WorkingDirectory=#{node['apache_spark']['install_dir']}
+    ExecStart=#{exec}
+    Restart=always
+    User=#{spark_user}
+    Group=#{spark_group}
+    Restart=on-failure
+    RestartSec=15
+    StartLimitInterval=10s
+    StartLimitBurst=3
+    StandardOutput=null
+    StandardError=null
 
-  subscribes notification_action, "monit-wrapper_monitor[#{worker_service_name}]", :delayed
-  subscribes notification_action, "package[#{node['apache_spark']['pkg_name']}]", :delayed
-  subscribes notification_action, "template[#{worker_runner_script}]", :delayed
+[Install]
+    WantedBy=multi-user.target
+"
+
+systemd_unit "#{service_name}.service" do
+  content systemd_service_description
+  action [:create, :enable, :start]
 end
+
+

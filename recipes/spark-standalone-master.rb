@@ -13,46 +13,44 @@
 # limitations under the License.
 
 include_recipe 'apache_spark::spark-install'
-include_recipe 'monit_wrapper'
-
-master_runner_script = ::File.join(node['apache_spark']['install_dir'], 'bin', 'master_runner.sh')
-master_service_name = 'spark-standalone-master'
 
 spark_user = node['apache_spark']['user']
 spark_group = node['apache_spark']['group']
+service_name = 'spark-standalone-master'
 
-template master_runner_script do
-  source 'spark_master_runner.sh.erb'
-  mode 0744
-  owner spark_user
-  group spark_group
-  variables node['apache_spark']['standalone'].merge(
-    install_dir: node['apache_spark']['install_dir']
-  )
-end
+master_bind_ip = node['apache_spark']['standalone']['master_bind_ip']
+master_port = node['apache_spark']['standalone']['master_port']
+master_webui_port = node['apache_spark']['standalone']['master_webui_port']
+install_dir = node['apache_spark']['install_dir']
+limit_of_file = node['apache_spark']['standalone']['max_num_open_files']
 
-# Run Spark standalone master with Monit
-monit_wrapper_monitor master_service_name do
-  template_source 'pattern-based_service.conf.erb'
-  template_cookbook 'monit_wrapper'
-  variables \
-    cmd_line_pattern: node['apache_spark']['standalone']['master_cmdline_pattern'],
-    cmd_line: master_runner_script,
-    user: spark_user,
-    group: spark_group
-end
+exec = "#{install_dir}/bin/spark-class org.apache.spark.deploy.master.Master --ip #{master_bind_ip} --webui-port #{master_webui_port} --port #{master_port}"
 
-monit_wrapper_service master_service_name do
-  action :start
+systemd_service_description =
+"[Unit]
+    Description=#{service_name}
+    After=#{service_name}.service
 
-  # Determine the "notification action" based on whether the service is running at recipe compile
-  # time. This is important because if the service is not running when the Chef run starts, it will
-  # start as part of the :start action and pick up the new software version and configuration
-  # anyway, so we don't have to restart it as part of delayed notification.
-  # TODO: put this logic in a library method in monit_wrapper.
-  notification_action = monit_service_exists_and_running?(master_service_name) ? :restart : :start
+[Service]
+    Type=simple
+    LimitNOFILE=#{limit_of_file}
+    WorkingDirectory=#{install_dir}
+    ExecStart=#{exec}
+    Restart=always
+    User=#{spark_user}
+    Group=#{spark_group}
+    Restart=on-failure
+    RestartSec=15
+    StartLimitInterval=10s
+    StartLimitBurst=3
+    StandardOutput=null
+    StandardError=null
 
-  subscribes notification_action, "monit-wrapper_monitor[#{master_service_name}]", :delayed
-  subscribes notification_action, "package[#{node['apache_spark']['pkg_name']}]", :delayed
-  subscribes notification_action, "template[#{master_runner_script}]", :delayed
+[Install]
+    WantedBy=multi-user.target
+"
+
+systemd_unit "#{service_name}.service" do
+  content systemd_service_description
+  action [:create, :enable, :start]
 end

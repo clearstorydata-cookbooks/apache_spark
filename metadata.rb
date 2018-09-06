@@ -28,5 +28,4 @@ end
 depends 'apt', '~> 2.0'
 depends 'java', '~> 1.0'
 depends 'logrotate', '~> 1.0'
-depends 'monit_wrapper', '~> 3.0'
 depends 'tar'
