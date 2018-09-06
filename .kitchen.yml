@@ -13,38 +13,36 @@
 # limitations under the License.
 ---
 driver:
-  name: <%= ENV['KI_DRIVER'] || 'vagrant' %>
-  customize:
-    cpus: 2
-    memory: 2048
-    cpuexecutioncap: 75
+  name: vagrant
 
 provisioner:
   name: chef_solo
 
+verifier:
+  name: inspec
+
 platforms:
-  - name: ubuntu-12.04
-  - name: ubuntu-14.04
-  - name: centos-6.5
-    driver_config:
-      box: opscode-centos-6.5
-      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box
+  - name: ubuntu-16.04
 
 suites:
-  - name: default
+  - name: master
+    verifier:
+      inspec_tests:
+      - test/integration/master
     run_list:
-      - recipe[apache_spark_test::spark]
-      - recipe[minitest-handler]
+      - recipe[java::default]
+      - recipe[apache_spark::spark-standalone-master]
     attributes:
       java:
-        jdk_version: 7
-      hadoop:
-        distribution: cdh
-        core_site:
-          fs.defaultFS: hdfs://localhost:54310
-      sysctl: {}
-      monit:
-        polling_frequency: 3  # for faster tests
-      minitest:
-        recipes:
-          - apache_spark_test::spark
+        jdk_version: 8
+  - name: worker
+    verifier:
+      inspec_tests:
+      - test/integration/worker
+    run_list:
+    - recipe[java::default]
+    - recipe[apache_spark::spark-standalone-master]
+    - recipe[apache_spark::spark-standalone-worker]
+    attributes:
+      java:
+        jdk_version: 8
